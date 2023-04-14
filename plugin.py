@@ -1,27 +1,14 @@
 import os
-import random
 from phoenixc2.server.plugins.base import BlueprintPlugin
-from flask import Blueprint, send_from_directory
+from flask import Blueprint
 
-DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 frontend = Blueprint("frontend", __name__, url_prefix="/")
+frontend.static_folder = os.path.dirname(os.path.abspath(__file__)) + "/frontend/dist/"
 
 
 @frontend.route("/")
 def base():
-    print(DIRECTORY + "/client/public/")
-    return send_from_directory(DIRECTORY + "/client/public", "index.html")
-
-
-# Path for all the static files (compiled JS/CSS, etc.)
-@frontend.route("/<path:path>")
-def home(path):
-    print(DIRECTORY + "/client/public/" + path)
-    return send_from_directory(DIRECTORY + "/client/public/", path)
-
-@frontend.route("/rand")
-def hello():
-    return str(random.randint(0, 100))
+    return frontend.send_static_file("index.html")
 
 
 class Plugin(BlueprintPlugin):

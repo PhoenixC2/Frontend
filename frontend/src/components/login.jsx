@@ -17,7 +17,6 @@ export default function LoginForm() {
     then((response) => {
       response.json().then((data) => {
         if (data.status === "success") {
-          console.log(data.user);
           Cookies.set("api_key", data.user.api_key, {
             sameSite: "none",
             secure: true,

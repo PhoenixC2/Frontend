@@ -5,8 +5,6 @@ import { useState } from "react";
 
 
 export default function NavBar(props) {
-  const [user, setUser] = useState(props.User);
-  
   return (
     <nav
       className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top "
@@ -29,8 +27,8 @@ export default function NavBar(props) {
         </button>
         <div className="collapse navbar-collapse justify-content-end">
           <ul className="navbar-nav">
-            <MessageDropdown User={user} />
-            <Profile User={user} />
+            <MessageDropdown />
+            <Profile/>
           </ul>
         </div>
       </div>

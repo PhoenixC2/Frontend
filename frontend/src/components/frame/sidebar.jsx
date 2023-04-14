@@ -1,6 +1,7 @@
+import Cookies from "js-cookie";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-const icons = {
+export const icons = {
   dashboard: "dashboard",
   operations: "public",
   devices: "dns",
@@ -15,40 +16,40 @@ const icons = {
 };
 
 function NavItem(props) {
+  const text = props.text;
   const route = props.route;
-  const lowerCaseRoute = route.toLowerCase();
-  const active = "active"
-    ? useLocation().pathname === `/${lowerCaseRoute}`
-    : "";
+  const lowerCaseText = text.toLowerCase();
+  // set status to "active" if the current path is the same as the route
+  const status = useLocation().pathname === route ? "active" : "";
   return (
-    <li className="nav-item {active}">
-      <Link className="nav-link" to={`/${lowerCaseRoute}`}>
-        <i className="material-icons">{icons[lowerCaseRoute]}</i>
-        <p>{route}</p>
+    <li className={"nav-item " + status}>
+      <Link className="nav-link" to={route}>
+        <i className="material-icons">{icons[lowerCaseText]}</i>
+        <p>{text}</p>
       </Link>
     </li>
   );
 }
 
 export default function SideBar() {
-  const routes = [
-    "Dashboard",
-    "Operations",
-    "Devices",
-    "Listeners",
-    "Stagers",
-    "Loaders",
-    "Modules",
-    "Users",
-    "Credentials",
-    "Logs",
-  ];
+  const routes = {
+    Dashboard: "/",
+    Operations: "/operations",
+    Devices: "/devices",
+    Listeners: "/listeners",
+    Stagers: "/stagers",
+    Loaders: "/loaders",
+    Modules: "/modules",
+    Users: "/users",
+    Credentials: "/credentials",
+    Logs: "/logs",
+  };
   return (
     <div
       className="sidebar"
       data-color="orange"
       data-background-color="black"
-      data-image="/icon.png"
+      data-image="icon.png"
     >
       <div className="logo">
         <a href="/" className="simple-text logo-normal">
@@ -57,8 +58,8 @@ export default function SideBar() {
       </div>
       <div className="sidebar-wrapper">
         <ul className="nav">
-          {routes.map((route) => (
-            <NavItem key={route} route={route} />
+          {Object.keys(routes).map((route) => (
+            <NavItem key={routes[route]} text={route} route={routes[route]} />
           ))}
         </ul>
       </div>
