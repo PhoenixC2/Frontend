@@ -45,7 +45,7 @@ export default function Credentials(props) {
                 </td>
               </tr>
             ))}
-          {!credentials && (
+          {credentials.length === 0 && (
             <tr className="dark-background">
               <td colSpan="9">No credentials found</td>
             </tr>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import request from "../logic/api";
+import request from "../../logic/api";
 import Cookies from "js-cookie";
 
 export default function Operations(props) {
@@ -41,7 +41,7 @@ export default function Operations(props) {
                     src={
                       "http://localhost:8080/api/operations/" +
                       operation.id +
-                      "/picture?api_key=" +
+                      "/pictu re?api_key=" +
                       Cookies.get("api_key")
                     }
                     onError={(e) => {

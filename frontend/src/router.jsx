@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainFrame from "./components/mainframe";
-import LoginForm from "./components/login";
+import LoginForm from "./pages/login";
 import DashBoard from "./pages/dashboard";
-import Operations from "./pages/operations";
-import Devices from "./pages/devices";
-import Listeners from "./pages/listeners";
-import Stagers from "./pages/stagers";
+import Operations from "./pages/operations/page";
+import Devices from "./pages/devices/page";
+import Listeners from "./pages/listeners/page";
+import Stagers from "./pages/stagers/page";
 import Loaders from "./pages/loaders";
 import Modules from "./pages/modules";
 import Users from "./pages/users";

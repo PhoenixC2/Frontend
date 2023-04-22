@@ -183,6 +183,17 @@ export default function DashBoard() {
           </div>
         </div>
       </div>
+      {activeListeners === 0 && (
+        <div className="card card-nav-tabs">
+          <div className="card-header card-header-warning">Suggestion</div>
+          <div className="card-body">
+            <h4 className="card-title">Create or start your first listener.</h4>
+            <a href="/listeners" className="btn btn-danger">
+              Create listener
+            </a>
+          </div>
+        </div>
+      )}
     </>
   );
 }

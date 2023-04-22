@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import request from "../logic/api";
+import request from "../../logic/api";
 
 export default function Devices(props) {
   const [devices, setDevices] = useState([]);
@@ -69,7 +69,7 @@ export default function Devices(props) {
                   </td>
                 </tr>
               ))}
-            {!devices && (
+            {devices.length === 0 && (
               <tr className="dark-background">
                 <td colSpan="9">No devices found</td>
               </tr>

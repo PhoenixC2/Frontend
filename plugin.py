@@ -1,9 +1,9 @@
-import os
 from phoenixc2.server.plugins.base import BlueprintPlugin
 from flask import Blueprint
 
 frontend = Blueprint("frontend", __name__, url_prefix="/")
-frontend.static_folder = os.path.dirname(os.path.abspath(__file__)) + "/frontend/dist/"
+frontend.static_folder = "dist"
+frontend.static_url_path = ""
 
 
 @frontend.route("/")
@@ -13,7 +13,7 @@ def base():
 
 class Plugin(BlueprintPlugin):
     name = "frontend"
-    description = "The frontend plugin for PhoenixC2. Serves a built Svelte frontend."
+    description = "The frontend plugin for PhoenixC2. Serves a built react app."
     author = "screamz2k"
 
     @staticmethod

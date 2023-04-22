@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import request from "../logic/api";
 import { icons } from "../components/frame/sidebar";
+import showNotification from "../logic/notify";
 
 export default function Logs(props) {
   const [logs, setLogs] = useState([]);
@@ -18,7 +19,9 @@ export default function Logs(props) {
   }, []);
 
   async function clearLog(id) {
-    await request(`logs/${id}/clear`, "DELETE");
+    const response = await request(`logs/${id}/clear`, "DELETE");
+    const body = await response.json();
+    showNotification(body.message, body.status);
     await getLogs();
   }
 
@@ -29,7 +32,6 @@ export default function Logs(props) {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Status</th>
             <th>Endpoint</th>
             <th>Description</th>
             <th>Time</th>
@@ -40,9 +42,8 @@ export default function Logs(props) {
         <tbody>
           {logs &&
             logs.map((log) => (
-              <tr className="dark-background" key={log.id}>
+              <tr className={`dark-background alert-${log.status}`} key={log.id}>
                 <td>{log.id}</td>
-                <td>{log.status}</td>
                 <td data-toggle="tooltip" data-placement="top" title={log.endpoint}>
                   <i className="material-icons" aria-label="Endpoint">
                     {icons[log.endpoint]}
@@ -62,7 +63,7 @@ export default function Logs(props) {
                 </td>
               </tr>
             ))}
-          {!logs && (
+          {logs.length === 0 && (
             <tr className="dark-background">
               <td colSpan="9">No Logs found</td>
             </tr>

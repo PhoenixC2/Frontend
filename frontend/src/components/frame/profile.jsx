@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import fetchUser from "../../logic/auth";
+import showNotification from "../../logic/notify";
 
 export default function Profile(props) {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     async function fetchData() {
@@ -13,8 +15,7 @@ export default function Profile(props) {
         const userData = await fetchUser();
         setUser(userData);
       } catch (error) {
-        console.log(error);
-        navigate("/login");
+        navigate("/login?error=You are not logged in");
       }
     }
     fetchData();

@@ -8,7 +8,6 @@ export default function Modules(props) {
     async function getModules() {
       const response = await request("modules?full=true");
       const modulesData = await response.json();
-      console.log(modulesData);
       setModules(modulesData.modules);
     }
     if (modules.length === 0) {
@@ -37,7 +36,7 @@ export default function Modules(props) {
                 <td>{module.enabled ? "✅" : "❌"}</td>
               </tr>
             ))}
-          {!modules && (
+          {modules.length === 0 && (
             <tr className="dark-background">
               <td colSpan="9">No modules found</td>
             </tr>

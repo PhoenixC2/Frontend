@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import request from "../../logic/api";
+import showNotification from "../../logic/notify";
 
 function Message(props) {
   const log = props.log;
@@ -16,19 +17,25 @@ export default function MessageDropdown(props) {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await request("/logs/unseen?user=true");
+      const response = await request("logs/unseen?user=true");
       const logsData = await response.json();
       setUnseenLogs(logsData.logs);
     }
-    
+
     fetchData();
     const interval = setInterval(fetchData, 10000);
     return () => clearInterval(interval);
   }, []);
 
   async function readLogs() {
-    await request("logs/read");
-    setUnseenLogs([]);
+    const response = await request("logs/read");
+    const body = await response.json();
+    if (response.status == 200) {
+      showNotification("All notifications marked as read", "success");
+      setUnseenLogs([]);
+    } else {
+      showNotification(body.message, "danger");
+    }
   }
 
   return (

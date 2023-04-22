@@ -79,7 +79,7 @@ export default function Users(props) {
                 </td>
               </tr>
             ))}
-          {!users && (
+          {users.length === 0 && (
             <tr className="dark-background">
               <td colSpan="9">No users found</td>
             </tr>

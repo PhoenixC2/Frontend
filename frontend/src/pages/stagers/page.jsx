@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import request from "../logic/api";
+import request from "../../logic/api";
 
 export default function Stagers(props) {
   const [stagers, Stagers] = useState([]);
@@ -47,7 +47,7 @@ export default function Stagers(props) {
                 </td>
               </tr>
             ))}
-          {!stagers && (
+          {stagers.length === 0 && (
             <tr className="dark-background">
               <td colSpan="9">No stagers found</td>
             </tr>
