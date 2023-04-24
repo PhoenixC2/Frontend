@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import request from "../logic/api";
 import Cookies from "js-cookie";
-
+import { getPictureUrl } from "../logic/user";
 export default function Users(props) {
   const [users, setUsers] = useState([]);
 
@@ -42,7 +42,11 @@ export default function Users(props) {
                     className="material-icons"
                     // set color to green if user is active, orange if inactive and red if offline
                     style={{
-                      color: user.status ? "green" : user.status ? "orange" : "red",
+                      color: user.status
+                        ? "green"
+                        : user.status
+                        ? "orange"
+                        : "red",
                       marginTop: "4px",
                       marginLeft: "4px",
                     }}
@@ -53,12 +57,7 @@ export default function Users(props) {
                 <td>
                   <img
                     className="profile-picture"
-                    src={
-                      "http://localhost:8080/api/users/" +
-                      user.id +
-                      "/picture?api_key=" +
-                      Cookies.get("api_key")
-                    }
+                    src={getPictureUrl(user.id)}
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = "/icon.png";

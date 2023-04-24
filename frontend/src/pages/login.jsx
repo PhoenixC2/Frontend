@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import request from "../logic/api";
-import getUser from "../logic/auth";
+import getUser from "../logic/user";
 import showNotification from "../logic/notify";
 
 export default function LoginForm() {
@@ -20,33 +20,41 @@ export default function LoginForm() {
   }, []);
 
   async function login() {
-    let response;
+    let success = false;
     if (useApiKey) {
-      response = request(`auth/login?api_key=${apiKey}`, "POST");
+      Cookies.set("api_key", apiKey, { sameSite: "none", secure: true });
+      try {
+        await getUser();
+      } catch {
+        Cookies.remove("api_key");
+        showNotification("Invalid API Key", "danger");
+        return;
+      }
+      success = true;
     } else {
-      response = request("auth/login", "POST", {
+      request("auth/login", "POST", {
         username: username,
         password: password,
-      });
-    }
-    response
-      .then((response) => {
-        response.json().then((data) => {
-          showNotification(data.message, data.status);
-          if (data.status === "success") {
-            Cookies.set("api_key", data.user.api_key, {
-              sameSite: "none",
-              secure: true,
-            });
-            setTimeout(() => {
-              navigate("/");
-            }, 1000);
-          }
-        });
       })
-      .catch((error) => {
-        showNotification(error, "danger");
-      });
+        .then((response) => {
+          response.json().then((data) => {
+            showNotification(data.message, data.status);
+            if (data.status === "success") {
+              success = true;
+            }
+          });
+        })
+        .catch((error) => {
+          showNotification(error, "danger");
+          return;
+        });
+    }
+    if (success) {
+      Cookies.set("api_key", apiKey, { sameSite: "none", secure: true });
+      showNotification("Logged in successfully", "success");
+      navigate("/");
+      return;
+    }
   }
 
   return (

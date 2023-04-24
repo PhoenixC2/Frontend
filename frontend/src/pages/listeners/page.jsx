@@ -2,57 +2,81 @@ import { useEffect, useState } from "react";
 import request from "../../logic/api";
 import showNotification from "../../logic/notify";
 import TypeSwitcher from "./switcher";
-
+import OptionsForm from "../../components/options";
+import Modal from "../../components/modal";
+import Listener from "./listener";
 export default function Listeners(props) {
   const [listeners, setListeners] = useState([]);
   const [listenerTypes, setListenerTypes] = useState([]);
+  const [currentEditListener, setCurrentEditListener] = useState(null);
 
-  async function startListener(id) {
-    showNotification("Starting listener.", "info");
-    const listener = listeners.find((listener) => listener.id === id);
-    listener.active = true;
-    await setListeners([...listeners]);
-    // send request to api
-    const response = await request(`listeners/${id}/start`, "POST");
+  async function getListeners() {
+    const response = await request("listeners");
+    const listenersData = await response.json();
+    // modify listeners so .options attributes are on the same level as the rest
+    const modifiedListeners = listenersData.listeners.map((listener) => {
+      const { options, ...rest } = listener;
+      return { ...rest, ...options };
+    });
+    setListeners(modifiedListeners);
+  }
+  async function createHandleSubmit(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    console.log(data);
+    const response = await request(
+      "listeners/add",
+      "POST",
+      Object.fromEntries(data.entries())
+    );
     const responseData = await response.json();
     showNotification(responseData.message, responseData.status);
+    $("#create-modal").modal("hide");
+    await getListeners();
   }
 
-  async function stopListener(id) {
-    showNotification("Stopping listener.", "info");
-    const listener = listeners.find((listener) => listener.id === id);
-    listener.active = false;
-    setListeners([...listeners]);
-    // send request to api
-    const response = await request(`listeners/${id}/stop`, "POST");
+  async function editHandleSubmit(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    const response = await request(
+      `listeners/${currentEditListener}/edit`,
+      "PUT",
+      Object.fromEntries(data.entries())
+    );
     const responseData = await response.json();
     showNotification(responseData.message, responseData.status);
+    $(`#edit-modal-${currentEditListener}`).modal("hide");
+    await getListeners();
   }
 
-  async function restartListener(id) {
-    showNotification("Restarting listener.", "info");
-    const listener = listeners.find((listener) => listener.id === id);
-    listener.active = false;
-    setListeners([...listeners]);
-    // send request to api
-    const response = await request(`listeners/${id}/restart`, "POST");
-    const responseData = await response.json();
-    // set status to active
-    listener.active = true;
-    setListeners([...listeners]);
-    showNotification(responseData.message, responseData.status);
-  }
+  function EditModal(props) {
+    const listener = props.listener;
+    // get listener type
+    const type = Object.values(listenerTypes).find(
+      (type) => type.name === listener.type
+    );
 
-  async function deleteListener(id) {
-    // remove listener from list
-    const listener = listeners.find((listener) => listener.id === id);
-    const index = listeners.indexOf(listener);
-    listeners.splice(index, 1);
-    setListeners([...listeners]);
-    // send request to api
-    const response = await request(`listeners/${id}/remove`, "DELETE");
-    const responseData = await response.json();
-    showNotification(responseData.message, responseData.status);
+    return (
+      <>
+        <Modal
+          id={`edit-modal-${listener.id}`}
+          title="Edit listener"
+          body={
+            <OptionsForm
+              type={type}
+              handleSubmit={() => editHandleSubmit()}
+              element={listener}
+            />
+          }
+        />
+        <button
+          data-toggle="modal"
+          data-target={`#edit-modal-${listener.id}`}
+          id={`edit-modal-${listener.id}-button`}
+          style={{ display: "none" }}
+        ></button>
+      </>
+    );
   }
 
   useEffect(() => {
@@ -61,11 +85,7 @@ export default function Listeners(props) {
       const listenerTypesData = await response.json();
       setListenerTypes(listenerTypesData.listeners);
     }
-    async function getListeners() {
-      const response = await request("listeners");
-      const listenersData = await response.json();
-      setListeners(listenersData.listeners);
-    }
+
     getListeners();
     getListenerTypes();
     const interval = setInterval(getListeners, 10000);
@@ -90,90 +110,17 @@ export default function Listeners(props) {
             </tr>
           </thead>
           <tbody>
-            {listeners &&
+            {listeners.length > 0 &&
               listeners.map((listener) => (
-                <tr className="dark-background" key={listener.id}>
-                  <td>{listener.id}</td>
-                  <td>
-                    <i
-                      title="Active"
-                      className="material-icons"
-                      // set color to green if listener is active and red if not
-                      style={{
-                        color: listener.active ? "green" : "red",
-                        marginTop: "4px",
-                        marginLeft: "4px",
-                      }}
-                    >
-                      circle
-                    </i>
-                  </td>
-                  <td>{listener.name}</td>
-                  <td>{listener.address}</td>
-                  <td>{listener.port}</td>
-                  <td>{listener.type}</td>
-                  <td>{listener.ssl ? "✅" : "❌"}</td>
-                  <td>{listener.enabled ? "✅" : "❌"}</td>
-                  <td>
-                    {!listener.active && (
-                      <button
-                        type="button"
-                        className="btn btn-success"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Start"
-                        onClick={() => startListener(listener.id)}
-                      >
-                        <i className="material-icons">play_arrow</i>
-                      </button>
-                    )}
-                    {listener.active && (
-                      <button
-                        type="button"
-                        className="btn btn-info"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Restart"
-                        onClick={() => restartListener(listener.id)}
-                      >
-                        <i className="material-icons">restart_alt</i>
-                      </button>
-                    )}
-                    {listener.active && (
-                      <button
-                        type="button"
-                        className="btn btn-danger"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Stop"
-                        onClick={() => stopListener(listener.id)}
-                      >
-                        <i className="material-icons">stop</i>
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      className="btn btn-warning"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Edit"
-                    >
-                      <i className="material-icons">edit</i>
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-danger"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Delete"
-                      onClick={() => deleteListener(listener.id)}
-                    >
-                      <i className="material-icons">delete</i>
-                    </button>
-                  </td>
-                </tr>
+                <Listener
+                  listener={listener}
+                  listeners={listeners}
+                  setListeners={setListeners}
+                  setCurrentEditListener={setCurrentEditListener}
+                  key={listener.id}
+                />
               ))}
-            {listeners.lenght === 0 && (
+            {listeners.length === 0 && (
               <tr className="dark-background">
                 <td colSpan="9">No listeners found</td>
               </tr>
@@ -191,37 +138,23 @@ export default function Listeners(props) {
           >
             Create a new listener
           </button>
-          <div
-            className="modal fade"
-            tabIndex="-1"
-            role="dialog"
-            aria-labelledby="exampleModalLongTitle"
-            aria-hidden="true"
+          <Modal
             id="create-modal"
-          >
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content dark-background">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="ModalLongTitle">
-                    Create a new listener
-                  </h5>
-                  <button
-                    type="button"
-                    className="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                  <TypeSwitcher listenerTypes={listenerTypes} />
-                </div>
-              </div>
-            </div>
-          </div>
+            title="Create a new listener"
+            body={
+              <TypeSwitcher
+                types={listenerTypes}
+                name="Listener Types"
+                description="Select the type of listener you want to create."
+                handleSubmit={() => createHandleSubmit}
+              />
+            }
+          />
         </>
       )}
+      {listeners.map((listener) => (
+        <EditModal listener={listener} key={listener.id} />
+      ))}
     </>
   );
 }

@@ -1,43 +1,34 @@
 import { useEffect, useState } from "react";
-import request from "../../logic/api";
-import showNotification from "../../logic/notify";
+import request from "../logic/api";
+import showNotification from "../logic/notify";
 import Info from "./info";
 
-export default function creationForm(props) {
-  const [listenerType, setListenerType] = useState(props.listenerType);
+export default function OptionsForm(props) {
+  const [type, setType] = useState(props.type);
+  const [element, setElement] = useState(props.element); // Element is the element to edit
 
   useEffect(() => {
-    // update the listener type when the props change
-    setListenerType(props.listenerType);
-  }, [props.listenerType]);
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData.entries());
-    const response = await request("listeners/add", "POST", data);
-    const responseData = await response.json();
-    showNotification(responseData.message, responseData.status);
-  }
+    setType(props.type);
+  }, [props]);
+  const isEdit = element !== undefined;
   return (
     <div className="container">
-      <form
-        onSubmit={handleSubmit}
-        className="border border-primary rounded p-3"
-      >
-        <Info listenerType={listenerType} />
-        <input type="hidden" name="type" value={listenerType.name} />
-        {listenerType.options.length > 0 && (
+      <form onSubmit={props.handleSubmit}>
+        <Info type={type} />
+        {element === undefined && <input type="hidden" name="type" value={type.name} />}
+        {type.options.length > 0 && (
           <>
-            {listenerType.options.map((option) => (
-              <>
+            {type.options.map((option) => (
+              <div key={option.real_name}>
                 {option.type === "boolean" && (
-                  <div className="form-check">
+                  <div className="form-check" key={option.real_name}>
                     <label className="form-check-label">
+                      <input type="hidden" name={option.real_name} value="off" />
                       <input
                         className="form-check-input"
                         type="checkbox"
                         name={option.real_name}
+                        defaultChecked={isEdit ? element[option.real_name] : option.default}
                       />
                       {option.name}
                       <span className="form-check-sign">
@@ -47,22 +38,23 @@ export default function creationForm(props) {
                     <small className="form-text text-muted">
                       {option.description}
                     </small>
+                    
                   </div>
                 )}
                 {option.type === "address" && (
-                  <div className="form-group">
+                  <div className="form-group"key={option.real_name}>
                     <label htmlFor={option.real_name}>{option.name}</label>
                     <input
                       list="addresses"
                       className="form-control"
                       type="text"
                       name={option.real_name}
-                      defaultValue={option.default}
+                      defaultValue={isEdit ? element[option.real_name] : option.default}
                     />
                     <datalist id="addresses">
                       {Object.keys(option.type_data.interfaces).map(
                         (net_interface) => (
-                          <option value={net_interface}>
+                          <option value={net_interface} key={net_interface}>
                             {net_interface}:{" "}
                             {option.type_data.interfaces[net_interface]}
                           </option>
@@ -75,13 +67,13 @@ export default function creationForm(props) {
                   </div>
                 )}
                 {option.type === "port" && (
-                  <div className="form-group">
+                  <div className="form-group" key={option.real_name}>
                     <label htmlFor={option.real_name}>{option.name}</label>
                     <input
                       className="form-control"
                       type="number"
                       name={option.real_name}
-                      defaultValue={option.default}
+                      defaultValue={isEdit ? element[option.real_name] : option.default}
                       min={1}
                       max={65535}
                     />
@@ -91,11 +83,13 @@ export default function creationForm(props) {
                   </div>
                 )}
                 {option.type === "choice" && (
-                  <div className="form-group">
+                  <div className="form-group" key={option.real_name}>
                     <label htmlFor={option.real_name}>{option.name}</label>
                     <select className="form-control" name={option.real_name}>
                       {Object.keys(option.type_data.choices).map((choice) => (
-                        <option value={choice}>{choice}</option>
+                        <option selected={choice === option.default} value={choice} key={choice}>
+                          {choice}
+                        </option>
                       ))}
                     </select>
                     <small className="form-text text-muted">
@@ -104,11 +98,11 @@ export default function creationForm(props) {
                   </div>
                 )}
                 {option.type === "table" && (
-                  <div className="form-group">
+                  <div className="form-group" key={option.real_name}>
                     <label htmlFor={option.real_name}>{option.name}</label>
                     <select className="form-control" name={option.real_name}>
                       {Object.keys(option.type_data.choices).map((choice) => (
-                        <option value={choice}>{choice}</option>
+                        <option value={choice} key={choice}>{choice}</option>
                       ))}
                     </select>
                     <small className="form-text text-muted">
@@ -117,13 +111,13 @@ export default function creationForm(props) {
                   </div>
                 )}
                 {option.type === "string" && (
-                  <div className="form-group">
+                  <div className="form-group" key={option.real_name}>
                     <label htmlFor={option.real_name}>{option.name}</label>
                     <input
                       className="form-control"
                       type="text"
                       name={option.real_name}
-                      defaultValue={option.default}
+                      defaultValue={isEdit ? element[option.real_name] : option.default}
                     />
                     <small className="form-text text-muted">
                       {option.description}
@@ -131,30 +125,31 @@ export default function creationForm(props) {
                   </div>
                 )}
                 {option.type === "integer" && (
-                  <div className="form-group">
+                  <div className="form-group" key={option.real_name}>
                     <label htmlFor={option.real_name}>{option.name}</label>
                     <input
                       className="form-control"
                       type="number"
                       name={option.real_name}
-                      defaultValue={option.default}
+                      defaultValue={isEdit ? element[option.real_name] : option.default}
                     />
                     <small className="form-text text-muted">
                       {option.description}
                     </small>
                   </div>
                 )}
-              </>
+              </div>
             ))}
           </>
         )}
-        <p>Created by: {listenerType.author}</p>
         <button type="submit" className="btn btn-warning">
-          Create Listener
+          {isEdit ? "Edit" : "Create"}
         </button>
-        <button type="reset" className="btn btn-danger">
-          Reset
-        </button>
+        {!isEdit && (
+          <button type="reset" className="btn btn-danger">
+            Reset
+          </button>
+        )}
       </form>
     </div>
   );

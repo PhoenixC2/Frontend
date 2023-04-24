@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import fetchUser from "../../logic/auth";
-import showNotification from "../../logic/notify";
+import fetchUser, {getPictureUrl} from "../../logic/user";
 
 export default function Profile(props) {
   const [user, setUser] = useState(null);
@@ -36,12 +35,7 @@ export default function Profile(props) {
           >
             <img
               className="profile-picture"
-              src={
-                "http://localhost:8080/api/users/" +
-                user.id +
-                "/picture?api_key=" +
-                Cookies.get("api_key")
-              }
+              src={getPictureUrl(user.id)}
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = "/icon.png";

@@ -1,38 +1,37 @@
 import { useState } from "react";
-import creationForm from "./options";
+import OptionsForm from "../../components/options";
 
 export default function TypeSwitcher(props) {
-  // form to switch between listener types
-  const [listenerTypes] = useState(props.listenerTypes);
-  const [listenerType, setListenerType] = useState(
-    Object.values(listenerTypes)[0]
-  );
+  const [name] = useState(props.name);
+  const [description] = useState(props.description);
+  const [types] = useState(props.types);
+  const [handleSubmit] = useState(props.handleSubmit);
+  const [type, setType] = useState(Object.values(types)[0]);
 
   function handleChange(event) {
-    setListenerType(listenerTypes[event.target.value]);
+    setType(types[event.target.value]);
   }
-
   return (
     <>
-      {Object.keys(listenerTypes).length > 0 && (
+      {Object.keys(types).length > 0 && (
         <div className="container">
           <form>
             <div className="form-group">
-              <label>Listener Type</label>
+              <label>{name}</label>
               <select className="form-control" onChange={handleChange}>
-                {Object.keys(listenerTypes).map((type) => (
-                  <option value={type} key={type}>
+                {Object.keys(types).map((type) => (
+                  <option key={type} value={type}>
                     {type}
                   </option>
                 ))}
               </select>
-              <small className="form-text text-muted">
-                Choose the listener type you want to create.
-              </small>
+              <small className="form-text text-muted">{description}</small>
             </div>
           </form>
-          {creationForm({ listenerType })}
         </div>
+      )}
+      {type !== undefined && (
+        <OptionsForm type={type} handleSubmit={handleSubmit} />
       )}
     </>
   );

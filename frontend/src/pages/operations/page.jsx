@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import request from "../../logic/api";
 import Cookies from "js-cookie";
+import UserRender from "../../components/user";
+import { getPictureUrl } from "../../logic/operations";
 
 export default function Operations(props) {
   const [operations, setOperations] = useState([]);
@@ -24,6 +26,7 @@ export default function Operations(props) {
             <th>ID</th>
             <th>Picture</th>
             <th>Name</th>
+            <th>Description</th>
             <th>Owner</th>
             <th>Assigned Users</th>
             <th>Expiry</th>
@@ -31,19 +34,14 @@ export default function Operations(props) {
           </tr>
         </thead>
         <tbody>
-          {operations &&
+          {operations.length > 0 &&
             operations.map((operation) => (
               <tr className="dark-background" key={operation.id}>
                 <td>{operation.id}</td>
                 <td>
                   <img
                     className="profile-picture"
-                    src={
-                      "http://localhost:8080/api/operations/" +
-                      operation.id +
-                      "/pictu re?api_key=" +
-                      Cookies.get("api_key")
-                    }
+                    src={getPictureUrl(operation.id)}
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = "/icon.png";
@@ -51,11 +49,19 @@ export default function Operations(props) {
                   />
                 </td>
                 <td>{operation.name}</td>
-                <td>{operation.owner.username}</td>
                 <td>
-                    {operation.assigned_users.map((user) => (
-                        <span>{user.username}</span>
-                    ))}
+                  {operation.description.substring(0, 30) +
+                    (operation.description.length > 30 ? "..." : "")}
+                </td>
+                <td>
+                  <UserRender user={operation.owner} />
+                </td>
+                <td>
+                  {operation.users.map((user) => (
+                    <span key={user.id}>
+                      <UserRender user={user} />
+                    </span>
+                  ))}
                 </td>
                 <td>{operation.expiry}</td>
                 <td>

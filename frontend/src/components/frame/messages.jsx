@@ -60,9 +60,22 @@ export default function MessageDropdown(props) {
             {unseenLogs.length == 0 && (
               <p className="dropdown-item">No new notifications</p>
             )}
-            {unseenLogs.map((log) => (
+            {/* show the last 10 logs if there are more than 10 */}
+            {unseenLogs.length > 10 && (
+              <>
+              {unseenLogs.slice(0, 10).map((log) => (
               <Message key={log.id} log={log} />
-            ))}
+              ))}
+              </>
+            )}
+            {/* show all logs if there are less than 10 */}
+            {unseenLogs.length <= 10 && (
+              <>
+              {unseenLogs.map((log) => (
+              <Message key={log.id} log={log} />
+              ))}
+              </>
+            )}
             {unseenLogs.length > 0 && (
               <>
                 <div className="dropdown-divider"></div>

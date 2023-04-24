@@ -1,4 +1,5 @@
 import request from "./api";
+import Cookies from "js-cookie";
 
 export default async function fetchUser() {
   const response = await request("users/user", "GET");
@@ -8,4 +9,8 @@ export default async function fetchUser() {
   } else {
     throw new Error(data.message);
   }
+}
+
+export function getPictureUrl(id){
+  return `http://localhost:8080/api/users/${id}/picture?api_key=${Cookies.get("api_key")}`
 }
