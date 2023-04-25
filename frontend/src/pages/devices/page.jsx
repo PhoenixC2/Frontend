@@ -26,10 +26,10 @@ export default function Devices(props) {
   return (
     <>
       <div className="table-responsive">
-        <table className="table table-striped">
+        <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th className="text-center">ID</th>
               <th>Active</th>
               <th>Name</th>
               <th>Hostname</th>
@@ -46,7 +46,7 @@ export default function Devices(props) {
             {devices &&
               devices.map((device) => (
                 <tr className="dark-background" key={device.id}>
-                  <td>{device.id}</td>
+                  <td className="text-center">{device.id}</td>
                   <td>{device.connected ? "✅" : "❌"}</td>
                   <td>{device.name}</td>
                   <td>{device.hostname}</td>

@@ -3,20 +3,27 @@ import { getData } from "../logic/api";
 import { get } from "jquery";
 
 export default function Credentials(props) {
-
-  const {data: credentials, isLoading, isError} = useQuery(["credentials"], async () => {
-    const data = await getData("credentials/");
-    return data.credentials;
-  }, {
-    refetchInterval: 10000,
-  });
+  const {
+    data: credentials,
+    isLoading,
+    isError,
+  } = useQuery(
+    ["credentials"],
+    async () => {
+      const data = await getData("credentials/");
+      return data.credentials;
+    },
+    {
+      refetchInterval: 10000,
+    }
+  );
 
   return (
     <div className="table-responsive">
-      <table className="table table-striped">
+      <table className="table">
         <thead>
           <tr>
-            <th>ID</th>
+            <th className="text-center">ID</th>
             <th>User</th>
             <th>Value</th>
             <th>Admin Access</th>
@@ -32,7 +39,7 @@ export default function Credentials(props) {
                 <td>{credential.value}</td>
                 <td>{credential.admin ? "✅" : "❌"}</td>
                 <td>
-                  <button type="button" className="btn btn-warning">
+                  <button type="button" className="btn btn-primary">
                     Edit
                   </button>
                   <button type="button" className="btn btn-danger">
@@ -43,17 +50,23 @@ export default function Credentials(props) {
             ))}
           {isLoading && (
             <tr className="dark-background">
-              <td className="text-warning" colSpan="9">Loading...</td>
+              <td className="text-warning" colSpan="9">
+                Loading...
+              </td>
             </tr>
           )}
           {isError && (
             <tr className="dark-background">
-              <td className="text-danger" colSpan="5">Error fetching credentials</td>
+              <td className="text-danger" colSpan="5">
+                Error fetching credentials
+              </td>
             </tr>
           )}
           {credentials && credentials.length === 0 && (
             <tr className="dark-background">
-              <td className="text-warning" colSpan="5">No credentials found</td>
+              <td className="text-warning" colSpan="5">
+                No credentials found
+              </td>
             </tr>
           )}
         </tbody>

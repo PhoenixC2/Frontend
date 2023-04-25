@@ -6,7 +6,7 @@ export default function Info(props) {
   return (
     <div className="card">
       <div className="card-header">
-        <h5 className="card-title text-warning">{type.name}</h5>
+        <h5 className="card-title text-primary">{type.name}</h5>
       </div>
       <div className="card-body">
         <p className="card-text">{type.description}</p>

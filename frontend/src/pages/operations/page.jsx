@@ -21,10 +21,10 @@ export default function Operations(props) {
 
   return (
     <div className="table-responsive">
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
+    <table className="table">
+      <thead>
+        <tr>
+          <th className="text-center">ID</th>
             <th>Picture</th>
             <th>Name</th>
             <th>Description</th>
@@ -39,7 +39,7 @@ export default function Operations(props) {
             operations.length > 0 &&
             operations.map((operation) => (
               <tr className="dark-background" key={operation.id}>
-                <td>{operation.id}</td>
+                <td className="text-center">{operation.id}</td>
                 <td>
                   <img
                     className="profile-picture"

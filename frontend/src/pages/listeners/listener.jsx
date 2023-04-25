@@ -57,7 +57,7 @@ export default function Listener(props) {
     <>
       {listener && (
         <tr className="dark-background">
-          <td>{listener.id}</td>
+          <td className="text-center">{listener.id}</td>
           <td>
             <i
               title="Active"

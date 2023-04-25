@@ -10,17 +10,16 @@ export default function Stagers(props) {
     ["stagers"],
     async () => {
       const data = await getData("stagers/");
-      console.log(data);
       return data.stagers;
     },
     { refetchInterval: 10000 }
   );
   return (
     <div className="table-responsive">
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
+    <table className="table">
+      <thead>
+        <tr>
+          <th className="text-center">ID</th>
             <th>Name</th>
             <th>Listener</th>
             <th>Type</th>
@@ -32,7 +31,7 @@ export default function Stagers(props) {
           {stagers &&
             stagers.map((stager) => (
               <tr className="dark-background" key={stager.id}>
-                <td>{stager.id}</td>
+                <td className="text-center">{stager.id}</td>
                 <td>{stager.name}</td>
                 <td>{stager.listener.name}</td>
                 <td>{stager.listener.type}</td>

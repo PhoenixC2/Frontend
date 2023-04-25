@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import router from "./router";
 import queryClient from "./query";
 
-import "./css/material-dashboard.css";
+import "./scss/material-dashboard.scss";
 import "./css/styles.css";
 
 // allow toggling devtools in production builds

@@ -10,6 +10,7 @@ import { getData } from "../../logic/api";
 
 export default function Listeners(props) {
   const [currentEditListener, setCurrentEditListener] = useState(0);
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   async function getListeners() {
     const response = await request("listeners/");
@@ -28,7 +29,7 @@ export default function Listeners(props) {
     const response = await request(
       "listeners/add",
       "POST",
-      Object.fromEntries(data.entries()) 
+      Object.fromEntries(data.entries())
     );
     const responseData = await response.json();
     showNotification(responseData.message, responseData.status);
@@ -76,7 +77,6 @@ export default function Listeners(props) {
 
   const { data: listenerTypes } = useQuery(["listenerTypes"], async () => {
     const data = await getData("listeners/available");
-    console.log(data.listeners);
     return data.listeners;
   });
 
@@ -90,10 +90,10 @@ export default function Listeners(props) {
   return (
     <>
       <div className="table-responsive">
-        <table className="table table-striped">
+        <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th className="text-center">ID</th>
               <th>Active</th>
               <th>Name</th>
               <th>Address</th>
@@ -115,9 +115,26 @@ export default function Listeners(props) {
                   key={listener.id}
                 />
               ))}
+            {isLoading && (
+              <tr className="dark-background">
+                <td className="text-warning" colSpan="9">
+                  Loading...
+                </td>
+              </tr>
+            )}
+            {isError && (
+              <tr className="dark-background">
+                <td className="text-danger" colSpan="9">
+                  Error fetching listeners
+                </td>
+              </tr>
+            )}
+
             {listeners && listeners.length === 0 && (
               <tr className="dark-background">
-                <td className="text-warning" colSpan="9">No listeners found</td>
+                <td className="text-warning" colSpan="9">
+                  No listeners found
+                </td>
               </tr>
             )}
           </tbody>
@@ -127,9 +144,8 @@ export default function Listeners(props) {
         <>
           <button
             type="button"
-            className="btn btn-warning"
-            data-toggle="modal"
-            data-target="#create-modal"
+            className="btn btn-primary"
+            onClick={() => setShowCreateModal(true)}
           >
             Create a new listener
           </button>
@@ -144,14 +160,16 @@ export default function Listeners(props) {
                 handleSubmit={() => createHandleSubmit}
               />
             }
+            show={showCreateModal}
+            setShow={setShowCreateModal}
           />
         </>
       )}
-      {listeners &&
+      {/* {listeners &&
         listenerTypes &&
         listeners.map((listener) => (
           <EditModal listener={listener} key={listener.id} />
-        ))}
+        ))} */}
     </>
   );
 }

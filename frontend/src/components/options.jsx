@@ -11,9 +11,6 @@ export default function OptionsForm(props) {
   }, [props]);
   const isEdit = element !== undefined;
 
-  console.log(isEdit ? "Edit": "Create")
-  console.log(props.handleSubmit);
-  console.log(element);
 
   return (
     <div className="container">
@@ -74,7 +71,7 @@ export default function OptionsForm(props) {
                   <div className="form-group" key={option.real_name}>
                     <label htmlFor={option.real_name}>{option.name}</label>
                     <input
-                      className="form-control"
+                      className="form-control md-label-static"
                       type="number"
                       name={option.real_name}
                       defaultValue={isEdit ? element[option.real_name] : option.default}
@@ -146,7 +143,7 @@ export default function OptionsForm(props) {
             ))}
           </>
         )}
-        <button type="submit" className="btn btn-warning">
+        <button type="submit" className="btn btn-primary">
           {isEdit ? "Edit" : "Create"}
         </button>
         {!isEdit && (

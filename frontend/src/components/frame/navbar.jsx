@@ -3,10 +3,7 @@ import Profile from "./profile";
 
 export default function NavBar(props) {
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top "
-      id="navigation-example"
-    >
+    <nav className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
       <div className="container-fluid">
         <button
           className="navbar-toggler"

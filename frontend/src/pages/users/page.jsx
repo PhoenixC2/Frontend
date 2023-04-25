@@ -18,10 +18,10 @@ export default function Users(props) {
 
   return (
     <div className="table-responsive">
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
+    <table className="table">
+      <thead>
+        <tr>
+          <th className="text-center">ID</th>
             <th>Status</th>
             <th>Profile Picture</th>
             <th>Username</th>
@@ -35,7 +35,7 @@ export default function Users(props) {
           {users &&
             users.map((user) => (
               <tr className="dark-background" key={user.id}>
-                <td>{user.id}</td>
+                <td className="text-center">{user.id}</td>
                 <td>
                   <i
                     title="Active"

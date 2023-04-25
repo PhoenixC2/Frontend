@@ -55,7 +55,7 @@ export default function Profile(props) {
       >
         {user && (
           <>
-          <a className="dropdown-item text-warning">
+          <a className="dropdown-item text-primary">
             {user.username}
           </a>
           <div className="dropdown-divider"></div>
