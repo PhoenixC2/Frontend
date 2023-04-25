@@ -5,8 +5,6 @@ import request from "../../logic/api";
 export default function Listener(props) {
   const [listener, setListener] = useState(props.listener);
   const [listeners, setListeners] = useState(props.listeners);
-  const setParentListeners = props.setListeners;
-  const setCurrentEditListener = props.setCurrentEditListener;
 
   useEffect(() => {
     setListener(props.listener);
@@ -15,15 +13,13 @@ export default function Listener(props) {
 
   // show edit modal
   function showEditModal() {
-    setCurrentEditListener(listener.id);
-    document.getElementById(`edit-modal-${listener.id}-button`).click();
+    props.setCurrentEditListener(listener.id);
+    $(`#edit-modal-${listener.id}`).modal("show");
   }
+  
   // management functions
   async function start() {
-    showNotification("Starting listener.", "info");
-
     listener.active = true;
-    await setParentListeners([...listeners]);
 
     const response = await request(`listeners/${listener.id}/start`, "POST");
     const responseData = await response.json();
@@ -32,10 +28,7 @@ export default function Listener(props) {
   }
 
   async function stop() {
-    showNotification("Stopping listener.", "info");
-
     listener.active = false;
-    setParentListeners([...listeners]);
 
     const response = await request(`listeners/${listener.id}/stop`, "POST");
     const responseData = await response.json();
@@ -44,25 +37,17 @@ export default function Listener(props) {
   }
 
   async function restart() {
-    showNotification("Restarting listener.", "info");
-
     listener.active = false;
-    setParentListeners([...listeners]);
 
     const response = await request(`listeners/${listener.id}/restart`, "POST");
     const responseData = await response.json();
 
     listener.active = true;
-    setParentListeners([...listeners]);
 
     showNotification(responseData.message, responseData.status);
   }
 
   async function remove() {
-    const index = listeners.indexOf(listener);
-    listeners.splice(index, 1);
-    setParentListeners([...listeners]);
-
     const response = await request(`listeners/${listener.id}/remove`, "DELETE");
     const responseData = await response.json();
 

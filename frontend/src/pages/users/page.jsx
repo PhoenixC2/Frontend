@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
-import request from "../logic/api";
-import Cookies from "js-cookie";
-import { getPictureUrl } from "../logic/user";
-export default function Users(props) {
-  const [users, setUsers] = useState([]);
+import { useQuery } from "@tanstack/react-query";
+import { getData } from "../../logic/api";
+import { getPictureUrl } from "../../logic/user";
 
-  useEffect(() => {
-    async function getUsers() {
-      const response = await request("users");
-      const usersData = await response.json();
-      setUsers(usersData.users);
-    }
-    getUsers();
-    const interval = setInterval(getUsers, 10000);
-    return () => clearInterval(interval);
-  }, []);
+export default function Users(props) {
+  const {
+    data: users,
+    isLoading,
+    isError,
+  } = useQuery(
+    ["users"],
+    async () => {
+      const data = await getData("users/");
+      return data.users;
+    },
+    { refetchInterval: 10000 }
+  );
 
   return (
     <div className="table-responsive">
@@ -78,9 +78,19 @@ export default function Users(props) {
                 </td>
               </tr>
             ))}
-          {users.length === 0 && (
+          {isLoading && (
             <tr className="dark-background">
-              <td colSpan="9">No users found</td>
+              <td className="text-warning" colSpan="8">Loading...</td>
+            </tr>
+          )}
+          {isError && (
+            <tr className="dark-background">
+              <td className="text-danger" colSpan="8">Error fetching users</td>
+            </tr>
+          )}
+          {users && users.length === 0 && (
+            <tr className="dark-background">
+              <td className="text-warning" colSpan="8">No users found</td>
             </tr>
           )}
         </tbody>

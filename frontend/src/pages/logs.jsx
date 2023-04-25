@@ -1,30 +1,23 @@
-import { useEffect, useState } from "react";
-import request from "../logic/api";
+import { useQuery } from "@tanstack/react-query";
 import { icons } from "../components/frame/sidebar";
 import showNotification from "../logic/notify";
+import request, { getData } from "../logic/api";
 
 export default function Logs(props) {
-  const [logs, setLogs] = useState([]);
-
-  async function getLogs() {
-    const response = await request("logs?user=true");
-    const logsData = await response.json();
-    setLogs(logsData.logs);
-  }
-
-  useEffect(() => {
-    getLogs();
-    const interval = setInterval(getLogs, 10000);
-    return () => clearInterval(interval);
-  }, []);
 
   async function clearLog(id) {
     const response = await request(`logs/${id}/clear`, "DELETE");
     const body = await response.json();
     showNotification(body.message, body.status);
-    await getLogs();
   }
 
+  const {data: logs, isLoading, isError} = useQuery(["logs"], async () => {
+    const data = await getData("logs/?user=true");
+    return data.logs;
+  }, {
+    refetchInterval: 10000,
+  });
+  console.log(logs);
   return (
     <>
     <div className="table-responsive">
@@ -63,9 +56,19 @@ export default function Logs(props) {
                 </td>
               </tr>
             ))}
-          {logs.length === 0 && (
+          {isLoading && (
             <tr className="dark-background">
-              <td colSpan="9">No Logs found</td>
+              <td className="text-warning" colSpan="6">Loading...</td>
+            </tr>
+          )}
+          {isError && (
+            <tr className="dark-background">
+              <td className="text-danger" colSpan="6">Error fetching logs</td>
+            </tr>
+          )}
+          {logs && logs.length === 0 && (
+            <tr className="dark-background">
+              <td className="text-warning" colSpan="6">No Logs found</td>
             </tr>
           )}
         </tbody>

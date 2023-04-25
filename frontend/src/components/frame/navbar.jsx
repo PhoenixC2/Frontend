@@ -1,8 +1,5 @@
 import MessageDropdown from "./messages";
 import Profile from "./profile";
-import { useState } from "react";
-
-
 
 export default function NavBar(props) {
   return (
@@ -28,7 +25,7 @@ export default function NavBar(props) {
         <div className="collapse navbar-collapse justify-content-end">
           <ul className="navbar-nav">
             <MessageDropdown />
-            <Profile/>
+            <Profile />
           </ul>
         </div>
       </div>

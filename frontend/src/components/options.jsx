@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import request from "../logic/api";
-import showNotification from "../logic/notify";
 import Info from "./info";
 
 export default function OptionsForm(props) {
@@ -9,8 +7,14 @@ export default function OptionsForm(props) {
 
   useEffect(() => {
     setType(props.type);
+    setElement(props.element);
   }, [props]);
   const isEdit = element !== undefined;
+
+  console.log(isEdit ? "Edit": "Create")
+  console.log(props.handleSubmit);
+  console.log(element);
+
   return (
     <div className="container">
       <form onSubmit={props.handleSubmit}>

@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react";
-import request from "../logic/api";
+import { useQuery } from "@tanstack/react-query";
+import { getData } from "../logic/api";
 
 export default function Modules(props) {
-  const [modules, setModules] = useState([]);
-
-  useEffect(() => {
-    async function getModules() {
-      const response = await request("modules?full=true");
-      const modulesData = await response.json();
-      setModules(modulesData.modules);
-    }
-    if (modules.length === 0) {
-      getModules();
-    }
-  }, []);
+  const {
+    data: modules,
+    isLoading,
+    isError,
+  } = useQuery(["modules"], async () => {
+    const data = await getData("modules/?full=true");
+    return data.modules;
+  });
 
   return (
     <div className="table-responsive">
@@ -36,9 +32,19 @@ export default function Modules(props) {
                 <td>{module.enabled ? "✅" : "❌"}</td>
               </tr>
             ))}
-          {modules.length === 0 && (
+          {isLoading && (
             <tr className="dark-background">
-              <td colSpan="9">No modules found</td>
+              <td className="text-warning" colSpan="4">Loading...</td>
+            </tr>
+          )}
+          {isError && (
+            <tr className="dark-background">
+              <td className="text-danger" colSpan="4">Error fetching modules</td>
+            </tr>
+          )}
+          {modules && modules.length === 0 && (
+            <tr className="dark-background">
+              <td className="text-warning" colSpan="9">No modules found</td>
             </tr>
           )}
         </tbody>

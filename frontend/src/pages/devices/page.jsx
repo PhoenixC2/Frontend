@@ -1,20 +1,7 @@
-import { useEffect, useState } from "react";
-import request from "../../logic/api";
+import { useQuery } from "@tanstack/react-query";
+import { getData } from "../../logic/api";
 
 export default function Devices(props) {
-  const [devices, setDevices] = useState([]);
-
-  useEffect(() => {
-    async function getDevices() {
-      const response = await request("devices");
-      const devicesData = await response.json();
-      setDevices(devicesData.devices);
-    }
-    getDevices();
-    const interval = setInterval(getDevices, 10000);
-    return () => clearInterval(interval);
-  }, []);
-
   function clearDevice(id) {
     async function clear() {
       const response = await request(`devices/${id}/clear`, "POST");
@@ -24,7 +11,18 @@ export default function Devices(props) {
     }
     clear();
   }
-  
+
+  const { data: devices, isLoading, isError } = useQuery(
+    ["devices"],
+    async () => {
+      const data = await getData("devices/");
+      return data.devices;
+    },
+    {
+      refetchInterval: 10000,
+    }
+  );
+
   return (
     <>
       <div className="table-responsive">
@@ -47,7 +45,6 @@ export default function Devices(props) {
           <tbody>
             {devices &&
               devices.map((device) => (
-                
                 <tr className="dark-background" key={device.id}>
                   <td>{device.id}</td>
                   <td>{device.connected ? "✅" : "❌"}</td>
@@ -69,9 +66,19 @@ export default function Devices(props) {
                   </td>
                 </tr>
               ))}
-            {devices.length === 0 && (
+            {isLoading && (
               <tr className="dark-background">
-                <td colSpan="9">No devices found</td>
+                <td className="text-warning" colSpan="11">Loading...</td>
+              </tr>
+            )}
+            {isError && (
+              <tr className="dark-background">
+                <td className="text-danger" colSpan="11">Error fetching devices</td>
+              </tr>
+            )}
+            {devices && devices.length === 0 && (
+              <tr className="dark-background">
+                <td className="text-warning" colSpan="11">No devices found</td>
               </tr>
             )}
           </tbody>

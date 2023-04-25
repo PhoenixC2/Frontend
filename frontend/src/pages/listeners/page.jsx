@@ -1,33 +1,34 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import request from "../../logic/api";
 import showNotification from "../../logic/notify";
 import TypeSwitcher from "./switcher";
 import OptionsForm from "../../components/options";
 import Modal from "../../components/modal";
 import Listener from "./listener";
+import { getData } from "../../logic/api";
+
 export default function Listeners(props) {
-  const [listeners, setListeners] = useState([]);
-  const [listenerTypes, setListenerTypes] = useState([]);
-  const [currentEditListener, setCurrentEditListener] = useState(null);
+  const [currentEditListener, setCurrentEditListener] = useState(0);
 
   async function getListeners() {
-    const response = await request("listeners");
+    const response = await request("listeners/");
     const listenersData = await response.json();
     // modify listeners so .options attributes are on the same level as the rest
     const modifiedListeners = listenersData.listeners.map((listener) => {
       const { options, ...rest } = listener;
       return { ...rest, ...options };
     });
-    setListeners(modifiedListeners);
+    return modifiedListeners;
   }
+
   async function createHandleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
-    console.log(data);
     const response = await request(
       "listeners/add",
       "POST",
-      Object.fromEntries(data.entries())
+      Object.fromEntries(data.entries()) 
     );
     const responseData = await response.json();
     showNotification(responseData.message, responseData.status);
@@ -64,34 +65,28 @@ export default function Listeners(props) {
           body={
             <OptionsForm
               type={type}
-              handleSubmit={() => editHandleSubmit()}
+              handleSubmit={editHandleSubmit}
               element={listener}
             />
           }
         />
-        <button
-          data-toggle="modal"
-          data-target={`#edit-modal-${listener.id}`}
-          id={`edit-modal-${listener.id}-button`}
-          style={{ display: "none" }}
-        ></button>
       </>
     );
   }
 
-  useEffect(() => {
-    async function getListenerTypes() {
-      const response = await request("listeners/available");
-      const listenerTypesData = await response.json();
-      setListenerTypes(listenerTypesData.listeners);
-    }
+  const { data: listenerTypes } = useQuery(["listenerTypes"], async () => {
+    const data = await getData("listeners/available");
+    console.log(data.listeners);
+    return data.listeners;
+  });
 
-    getListeners();
-    getListenerTypes();
-    const interval = setInterval(getListeners, 10000);
-    return () => clearInterval(interval);
-  }, []);
-
+  const {
+    data: listeners,
+    isLoading,
+    isError,
+  } = useQuery(["listeners"], getListeners, {
+    refetchInterval: 10000,
+  });
   return (
     <>
       <div className="table-responsive">
@@ -110,25 +105,25 @@ export default function Listeners(props) {
             </tr>
           </thead>
           <tbody>
-            {listeners.length > 0 &&
+            {listeners &&
+              listeners.length > 0 &&
               listeners.map((listener) => (
                 <Listener
                   listener={listener}
                   listeners={listeners}
-                  setListeners={setListeners}
                   setCurrentEditListener={setCurrentEditListener}
                   key={listener.id}
                 />
               ))}
-            {listeners.length === 0 && (
+            {listeners && listeners.length === 0 && (
               <tr className="dark-background">
-                <td colSpan="9">No listeners found</td>
+                <td className="text-warning" colSpan="9">No listeners found</td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
-      {Object.keys(listenerTypes).length > 0 && (
+      {listenerTypes && Object.keys(listenerTypes).length > 0 && (
         <>
           <button
             type="button"
@@ -152,9 +147,11 @@ export default function Listeners(props) {
           />
         </>
       )}
-      {listeners.map((listener) => (
-        <EditModal listener={listener} key={listener.id} />
-      ))}
+      {listeners &&
+        listenerTypes &&
+        listeners.map((listener) => (
+          <EditModal listener={listener} key={listener.id} />
+        ))}
     </>
   );
 }

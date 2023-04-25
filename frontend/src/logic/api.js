@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 
 export default function request(route, method, body) {
-  return fetch("http://localhost:8080/api/" + route, {
+  return fetch("/api/" + route, {
     method: method,
     body: JSON.stringify(body),
     headers: {
@@ -9,4 +9,13 @@ export default function request(route, method, body) {
       "Api-Key": Cookies.get("api_key") || "",
     },
   });
+}
+
+
+export async function getData(route) {
+  const response = await request(route, "GET");
+  if (response.status === 200) {
+    return await response.json();
+  }
+  return [];
 }

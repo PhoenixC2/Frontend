@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react";
-import request from "../logic/api";
+import { useQuery } from "@tanstack/react-query";
+import { getData } from "../logic/api";
+import { get } from "jquery";
 
 export default function Credentials(props) {
-  const [credentials, setCredentials] = useState([]);
 
-  useEffect(() => {
-    async function getCredentials() {
-      const response = await request("credentials");
-      const credentialsData = await response.json();
-      setCredentials(credentialsData.credentials);
-    }
-    getCredentials();
-    const interval = setInterval(getCredentials, 10000);
-    return () => clearInterval(interval);
-  }, []);
+  const {data: credentials, isLoading, isError} = useQuery(["credentials"], async () => {
+    const data = await getData("credentials/");
+    return data.credentials;
+  }, {
+    refetchInterval: 10000,
+  });
 
   return (
     <div className="table-responsive">
@@ -45,9 +41,19 @@ export default function Credentials(props) {
                 </td>
               </tr>
             ))}
-          {credentials.length === 0 && (
+          {isLoading && (
             <tr className="dark-background">
-              <td colSpan="9">No credentials found</td>
+              <td className="text-warning" colSpan="9">Loading...</td>
+            </tr>
+          )}
+          {isError && (
+            <tr className="dark-background">
+              <td className="text-danger" colSpan="5">Error fetching credentials</td>
+            </tr>
+          )}
+          {credentials && credentials.length === 0 && (
+            <tr className="dark-background">
+              <td className="text-warning" colSpan="5">No credentials found</td>
             </tr>
           )}
         </tbody>
