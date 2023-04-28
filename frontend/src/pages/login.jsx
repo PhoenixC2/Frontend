@@ -19,42 +19,30 @@ export default function LoginForm() {
     }
   }, []);
 
-  async function login() {
-    let success = false;
-    if (useApiKey) {
-      Cookies.set("api_key", apiKey, { sameSite: "none", secure: true });
-      try {
-        await getUser();
-      } catch {
-        Cookies.remove("api_key");
-        showNotification("Invalid API Key", "danger");
-        return;
-      }
-      success = true;
-    } else {
-      request("auth/login", "POST", {
-        username: username,
-        password: password,
-      })
-        .then((response) => {
-          response.json().then((data) => {
-            showNotification(data.message, data.status);
-            if (data.status === "success") {
-              success = true;
-            }
-          });
-        })
-        .catch((error) => {
-          showNotification(error, "danger");
-          return;
-        });
-    }
-    if (success) {
-      Cookies.set("api_key", apiKey, { sameSite: "none", secure: true });
-      showNotification("Logged in successfully", "success");
-      navigate("/");
+  async function loginWithApiKey() {
+    Cookies.set("api_key", apiKey, { sameSite: "none", secure: true });
+    try {
+      await getUser();
+    } catch {
+      Cookies.remove("api_key");
+      showNotification("Invalid API Key", "danger");
       return;
     }
+    showNotification("Logged in with API-Key", "success");
+    navigate("/");
+  }
+  async function loginWithCredentials() {
+    const response = await request("auth/login", "POST", {
+      username: username,
+      password: password,
+    });
+    const data = await response.json();
+    showNotification(data.message, data.status);
+    Cookies.set("api_key", data.user.api_key, {
+      sameSite: "none",
+      secure: true,
+    });
+    navigate("/");
   }
 
   return (
@@ -122,7 +110,7 @@ export default function LoginForm() {
                 <button
                   type="button"
                   className="btn btn-warning btn-block"
-                  onClick={login}
+                  onClick={useApiKey ? loginWithApiKey : loginWithCredentials}
                 >
                   Login
                 </button>

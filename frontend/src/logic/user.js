@@ -12,5 +12,5 @@ export default async function fetchUser() {
 }
 
 export function getPictureUrl(id){
-  return `http://localhost:8080/api/users/${id}/picture?api_key=${Cookies.get("api_key")}`
+  return `/api/users/${id}/picture?api_key=${Cookies.get("api_key")}`
 }

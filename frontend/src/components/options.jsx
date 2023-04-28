@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import request from "../logic/api";
-import showNotification from "../logic/notify";
 import Info from "./info";
 
 export default function OptionsForm(props) {
@@ -9,8 +7,11 @@ export default function OptionsForm(props) {
 
   useEffect(() => {
     setType(props.type);
+    setElement(props.element);
   }, [props]);
   const isEdit = element !== undefined;
+
+
   return (
     <div className="container">
       <form onSubmit={props.handleSubmit}>
@@ -70,7 +71,7 @@ export default function OptionsForm(props) {
                   <div className="form-group" key={option.real_name}>
                     <label htmlFor={option.real_name}>{option.name}</label>
                     <input
-                      className="form-control"
+                      className="form-control md-label-static"
                       type="number"
                       name={option.real_name}
                       defaultValue={isEdit ? element[option.real_name] : option.default}
@@ -142,7 +143,7 @@ export default function OptionsForm(props) {
             ))}
           </>
         )}
-        <button type="submit" className="btn btn-warning">
+        <button type="submit" className="btn btn-primary">
           {isEdit ? "Edit" : "Create"}
         </button>
         {!isEdit && (

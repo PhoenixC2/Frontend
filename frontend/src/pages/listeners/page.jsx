@@ -1,29 +1,34 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import request from "../../logic/api";
 import showNotification from "../../logic/notify";
 import TypeSwitcher from "./switcher";
 import OptionsForm from "../../components/options";
 import Modal from "../../components/modal";
 import Listener from "./listener";
+import { getData } from "../../logic/api";
+import { useSearchParams } from "react-router-dom";
+
 export default function Listeners(props) {
-  const [listeners, setListeners] = useState([]);
-  const [listenerTypes, setListenerTypes] = useState([]);
-  const [currentEditListener, setCurrentEditListener] = useState(null);
+  const [currentEditListener, setCurrentEditListener] = useState(0);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [searchParams] = useSearchParams();
 
   async function getListeners() {
-    const response = await request("listeners");
+    const response = await request("listeners/");
     const listenersData = await response.json();
     // modify listeners so .options attributes are on the same level as the rest
     const modifiedListeners = listenersData.listeners.map((listener) => {
       const { options, ...rest } = listener;
       return { ...rest, ...options };
     });
-    setListeners(modifiedListeners);
+    return modifiedListeners;
   }
+
   async function createHandleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
-    console.log(data);
     const response = await request(
       "listeners/add",
       "POST",
@@ -31,7 +36,7 @@ export default function Listeners(props) {
     );
     const responseData = await response.json();
     showNotification(responseData.message, responseData.status);
-    $("#create-modal").modal("hide");
+    setShowCreateModal(false);
     await getListeners();
   }
 
@@ -45,7 +50,7 @@ export default function Listeners(props) {
     );
     const responseData = await response.json();
     showNotification(responseData.message, responseData.status);
-    $(`#edit-modal-${currentEditListener}`).modal("hide");
+    setShowEditModal(false);
     await getListeners();
   }
 
@@ -64,41 +69,48 @@ export default function Listeners(props) {
           body={
             <OptionsForm
               type={type}
-              handleSubmit={() => editHandleSubmit()}
+              handleSubmit={editHandleSubmit}
               element={listener}
             />
           }
+          show={showEditModal}
+          setShow={setShowEditModal}
         />
-        <button
-          data-toggle="modal"
-          data-target={`#edit-modal-${listener.id}`}
-          id={`edit-modal-${listener.id}-button`}
-          style={{ display: "none" }}
-        ></button>
       </>
     );
   }
 
   useEffect(() => {
-    async function getListenerTypes() {
-      const response = await request("listeners/available");
-      const listenerTypesData = await response.json();
-      setListenerTypes(listenerTypesData.listeners);
+    if (searchParams.get("listener")) {
+      setCurrentEditListener(searchParams.get("listener"));
+      setShowEditModal(true);
     }
-
-    getListeners();
-    getListenerTypes();
-    const interval = setInterval(getListeners, 10000);
-    return () => clearInterval(interval);
+    else if (searchParams.has("create")) {
+      setShowCreateModal(true);
+    }
   }, []);
+
+  const { data: listenerTypes } = useQuery(["listenerTypes"], async () => {
+    const data = await getData("listeners/available");
+    return data.listeners;
+  });
+
+  const {
+    data: listeners,
+    isLoading,
+    isError,
+  } = useQuery(["listeners"], getListeners, {
+    refetchInterval: 10000,
+  });
+
 
   return (
     <>
       <div className="table-responsive">
-        <table className="table table-striped">
+        <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th className="text-center">ID</th>
               <th>Active</th>
               <th>Name</th>
               <th>Address</th>
@@ -110,31 +122,49 @@ export default function Listeners(props) {
             </tr>
           </thead>
           <tbody>
-            {listeners.length > 0 &&
+            {listeners &&
+              listeners.length > 0 &&
               listeners.map((listener) => (
                 <Listener
                   listener={listener}
                   listeners={listeners}
-                  setListeners={setListeners}
                   setCurrentEditListener={setCurrentEditListener}
+                  setShowEditModal={setShowEditModal}
                   key={listener.id}
                 />
               ))}
-            {listeners.length === 0 && (
+            {isLoading && (
               <tr className="dark-background">
-                <td colSpan="9">No listeners found</td>
+                <td className="text-warning" colSpan="9">
+                  Loading...
+                </td>
+              </tr>
+            )}
+            {isError && (
+              <tr className="dark-background">
+                <td className="text-danger" colSpan="9">
+                  Error fetching listeners
+                </td>
+              </tr>
+            )}
+
+            {listeners && listeners.length === 0 && (
+              <tr className="dark-background">
+                <td className="text-warning" colSpan="9">
+                  No listeners found
+                </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
-      {Object.keys(listenerTypes).length > 0 && (
+      {listenerTypes && Object.keys(listenerTypes).length > 0 && (
         <>
           <button
             type="button"
-            className="btn btn-warning"
-            data-toggle="modal"
-            data-target="#create-modal"
+            className="btn btn-primary"
+            onClick={() => setShowCreateModal(true)}
+            // data-toggle="modal" data-target="#create-modal-before"
           >
             Create a new listener
           </button>
@@ -149,12 +179,16 @@ export default function Listeners(props) {
                 handleSubmit={() => createHandleSubmit}
               />
             }
+            show={showCreateModal}
+            setShow={setShowCreateModal}
           />
         </>
       )}
-      {listeners.map((listener) => (
-        <EditModal listener={listener} key={listener.id} />
-      ))}
+      {listeners &&
+        listenerTypes &&
+        listeners.map((listener) => (
+          <EditModal listener={listener} key={listener.id} />
+        ))}
     </>
   );
 }

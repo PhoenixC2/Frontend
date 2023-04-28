@@ -1,64 +1,77 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import fetchUser, {getPictureUrl} from "../../logic/user";
+import fetchUser, { getPictureUrl } from "../../logic/user";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Profile(props) {
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const userData = await fetchUser();
-        setUser(userData);
-      } catch (error) {
-        navigate("/login?error=You are not logged in");
-      }
+  async function fetchData() {
+    try {
+      return await fetchUser();
+    } catch (error) {
+      navigate("/login?error=You are not logged in");
     }
-    fetchData();
-    const interval = setInterval(fetchData, 10000);
-    return () => clearInterval(interval);
-  }, []);
+  }
+
+  const { data: user } = useQuery(["user"], fetchData, {
+    refetchInterval: 10000,
+  });
 
   return (
-    <>
-      {user && (
-        <li className="nav-item dropdown">
-          <a
-            className="nav-link"
-            id="navbarDropdownProfile"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <img
-              className="profile-picture"
-              src={getPictureUrl(user.id)}
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "/icon.png";
-              }}
-            />
+    <li className="nav-item dropdown">
+      <a
+        className="nav-link"
+        id="navbarDropdownProfile"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        {user && (
+          <>
+            {user.id && (
+              <img
+                className="profile-picture"
+                src={getPictureUrl(user.id)}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "/icon.png";
+                }}
+              />
+            )}
             <p className="d-lg-none d-md-block">{user.username}</p>
+          </>
+        )}
+        {!user && (
+          <>
+            <img className="profile-picture" src="/icon.png" />
+            <p className="d-lg-none d-md-block">Account</p>
+          </>
+        )}
+      </a>
+      <div
+        className="dropdown-menu dropdown-menu-right"
+        aria-labelledby="navbarDropdownProfile"
+      >
+        {user && (
+          <>
+          <a className="dropdown-item text-primary">
+            {user.username}
           </a>
-          <div
-            className="dropdown-menu dropdown-menu-right"
-            aria-labelledby="navbarDropdownProfile"
-          >
-            <a
-              className="dropdown-item text-danger"
-              onClick={() => {
-                Cookies.remove("api_key");
-                navigate("/login");
-              }}
-            >
-              Log out
-            </a>
-          </div>
-        </li>
-      )}
-    </>
+          <div className="dropdown-divider"></div>
+          </>
+        )}
+
+        <a
+          className="dropdown-item text-danger"
+          onClick={() => {
+            Cookies.remove("api_key");
+            navigate("/login");
+          }}
+        >
+          Log out
+        </a>
+      </div>
+    </li>
   );
 }

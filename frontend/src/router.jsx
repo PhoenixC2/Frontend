@@ -8,7 +8,7 @@ import Listeners from "./pages/listeners/page";
 import Stagers from "./pages/stagers/page";
 import Loaders from "./pages/loaders";
 import Modules from "./pages/modules";
-import Users from "./pages/users";
+import Users from "./pages/users/page";
 import Credentials from "./pages/credentials";
 import Logs from "./pages/logs";
 

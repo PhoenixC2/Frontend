@@ -1,15 +1,9 @@
 import MessageDropdown from "./messages";
 import Profile from "./profile";
-import { useState } from "react";
-
-
 
 export default function NavBar(props) {
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top "
-      id="navigation-example"
-    >
+    <nav className="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
       <div className="container-fluid">
         <button
           className="navbar-toggler"
@@ -28,7 +22,7 @@ export default function NavBar(props) {
         <div className="collapse navbar-collapse justify-content-end">
           <ul className="navbar-nav">
             <MessageDropdown />
-            <Profile/>
+            <Profile />
           </ul>
         </div>
       </div>

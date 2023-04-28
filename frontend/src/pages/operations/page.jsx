@@ -1,29 +1,30 @@
-import { useEffect, useState } from "react";
-import request from "../../logic/api";
-import Cookies from "js-cookie";
+import { useQuery } from "@tanstack/react-query";
 import UserRender from "../../components/user";
 import { getPictureUrl } from "../../logic/operations";
+import { getData } from "../../logic/api";
 
 export default function Operations(props) {
-  const [operations, setOperations] = useState([]);
-
-  useEffect(() => {
-    async function getOperations() {
-      const response = await request("operations?owner=true&assigned=true");
-      const operationsData = await response.json();
-      setOperations(operationsData.operations);
+  const {
+    data: operations,
+    isLoading,
+    isError,
+  } = useQuery(
+    ["operations"],
+    async () => {
+      const data = await getData("operations/?owner=true&assigned=true");
+      return data.operations;
+    },
+    {
+      refetchInterval: 10000,
     }
-    getOperations();
-    const interval = setInterval(getOperations, 10000);
-    return () => clearInterval(interval);
-  }, []);
+  );
 
   return (
     <div className="table-responsive">
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
+    <table className="table">
+      <thead>
+        <tr>
+          <th className="text-center">ID</th>
             <th>Picture</th>
             <th>Name</th>
             <th>Description</th>
@@ -34,10 +35,11 @@ export default function Operations(props) {
           </tr>
         </thead>
         <tbody>
-          {operations.length > 0 &&
+          {operations &&
+            operations.length > 0 &&
             operations.map((operation) => (
               <tr className="dark-background" key={operation.id}>
-                <td>{operation.id}</td>
+                <td className="text-center">{operation.id}</td>
                 <td>
                   <img
                     className="profile-picture"
@@ -74,9 +76,19 @@ export default function Operations(props) {
                 </td>
               </tr>
             ))}
-          {operations.length === 0 && (
+          {isLoading && (
             <tr className="dark-background">
-              <td colSpan="9">No operations found</td>
+              <td className="text-warning" colSpan="9">Loading...</td>
+            </tr>
+          )}
+          {isError && (
+            <tr className="dark-background">
+              <td className="text-danger" colSpan="9">Error fetching operations</td>
+            </tr>
+          )}
+          {operations && operations.length === 0 && (
+            <tr className="dark-background">
+              <td className="text-warning" colSpan="9">No operations found</td>
             </tr>
           )}
         </tbody>

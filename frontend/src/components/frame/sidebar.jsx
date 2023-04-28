@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 export const icons = {
@@ -49,7 +48,7 @@ export default function SideBar() {
       className="sidebar"
       data-color="orange"
       data-background-color="black"
-      data-image="icon.png"
+      data-image="/icon.png"
     >
       <div className="logo">
         <a href="/" className="simple-text logo-normal">
