@@ -4,13 +4,13 @@ export default function Info(props) {
   // Info card for the listener type
   const [type] = useState(props.type);
   return (
-    <div className="card">
+    <div className="card dark-background">
       <div className="card-header">
         <h5 className="card-title text-primary">{type.name}</h5>
       </div>
       <div className="card-body">
         <p className="card-text">{type.description}</p>
-        {type.features === undefined && (
+        {type.features && (
           <>
             <h6 className="card-subtitle mb-2 text-muted">Features</h6>
             <ul className="list-group list-group-flush">

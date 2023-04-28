@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getData } from "../../logic/api";
+import { Link } from "react-router-dom";
 
 export default function Stagers(props) {
   const {
@@ -9,7 +10,7 @@ export default function Stagers(props) {
   } = useQuery(
     ["stagers"],
     async () => {
-      const data = await getData("stagers/");
+      const data = await getData("stagers/?listener=true");
       return data.stagers;
     },
     { refetchInterval: 10000 }
@@ -33,7 +34,7 @@ export default function Stagers(props) {
               <tr className="dark-background" key={stager.id}>
                 <td className="text-center">{stager.id}</td>
                 <td>{stager.name}</td>
-                <td>{stager.listener.name}</td>
+                <td><Link to={`/listeners/?listener=${stager.listener.id}`}>{stager.listener.name}</Link></td>
                 <td>{stager.listener.type}</td>
                 <td>{stager.payload}</td>
                 <td>

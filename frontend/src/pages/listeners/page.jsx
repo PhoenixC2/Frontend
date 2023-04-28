@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import request from "../../logic/api";
 import showNotification from "../../logic/notify";
@@ -7,10 +7,13 @@ import OptionsForm from "../../components/options";
 import Modal from "../../components/modal";
 import Listener from "./listener";
 import { getData } from "../../logic/api";
+import { useSearchParams } from "react-router-dom";
 
 export default function Listeners(props) {
   const [currentEditListener, setCurrentEditListener] = useState(0);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [searchParams] = useSearchParams();
 
   async function getListeners() {
     const response = await request("listeners/");
@@ -33,7 +36,7 @@ export default function Listeners(props) {
     );
     const responseData = await response.json();
     showNotification(responseData.message, responseData.status);
-    $("#create-modal").modal("hide");
+    setShowCreateModal(false);
     await getListeners();
   }
 
@@ -47,7 +50,7 @@ export default function Listeners(props) {
     );
     const responseData = await response.json();
     showNotification(responseData.message, responseData.status);
-    $(`#edit-modal-${currentEditListener}`).modal("hide");
+    setShowEditModal(false);
     await getListeners();
   }
 
@@ -70,10 +73,22 @@ export default function Listeners(props) {
               element={listener}
             />
           }
+          show={showEditModal}
+          setShow={setShowEditModal}
         />
       </>
     );
   }
+
+  useEffect(() => {
+    if (searchParams.get("listener")) {
+      setCurrentEditListener(searchParams.get("listener"));
+      setShowEditModal(true);
+    }
+    else if (searchParams.has("create")) {
+      setShowCreateModal(true);
+    }
+  }, []);
 
   const { data: listenerTypes } = useQuery(["listenerTypes"], async () => {
     const data = await getData("listeners/available");
@@ -87,6 +102,8 @@ export default function Listeners(props) {
   } = useQuery(["listeners"], getListeners, {
     refetchInterval: 10000,
   });
+
+
   return (
     <>
       <div className="table-responsive">
@@ -112,6 +129,7 @@ export default function Listeners(props) {
                   listener={listener}
                   listeners={listeners}
                   setCurrentEditListener={setCurrentEditListener}
+                  setShowEditModal={setShowEditModal}
                   key={listener.id}
                 />
               ))}
@@ -146,6 +164,7 @@ export default function Listeners(props) {
             type="button"
             className="btn btn-primary"
             onClick={() => setShowCreateModal(true)}
+            // data-toggle="modal" data-target="#create-modal-before"
           >
             Create a new listener
           </button>
@@ -165,11 +184,11 @@ export default function Listeners(props) {
           />
         </>
       )}
-      {/* {listeners &&
+      {listeners &&
         listenerTypes &&
         listeners.map((listener) => (
           <EditModal listener={listener} key={listener.id} />
-        ))} */}
+        ))}
     </>
   );
 }

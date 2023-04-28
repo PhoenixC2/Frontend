@@ -18,6 +18,7 @@ const localStoragePersister = createSyncStoragePersister({
 persistQueryClient({
   queryClient,
   persister: localStoragePersister,
+  maxAge: 1000 * 60 * 60 * 24, // 1 week
 });
 
 export default queryClient;

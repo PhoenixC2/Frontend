@@ -25,6 +25,7 @@ export default function UserRender(props) {
             data-toggle="tooltip"
             data-placement="top"
             title={user.username}
+            alt={user.username}
           />
         </Link>
       )}

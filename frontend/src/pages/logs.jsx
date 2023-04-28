@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { icons } from "../components/frame/sidebar";
 import showNotification from "../logic/notify";
 import request, { getData } from "../logic/api";
+import UserRender from "../components/user";
 
 export default function Logs(props) {
   async function clearLog(id) {
@@ -57,7 +58,7 @@ export default function Logs(props) {
                   </td>
                   <td className={`text-${log.status}`}>{log.description}</td>
                   <td>{log.time}</td>
-                  <td>{log.user.username || "N/A"}</td>
+                  <td>{log.user.username ? <UserRender user={log.user} /> : log.user}</td>
                   <td>
                     <button
                       type="button"
