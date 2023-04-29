@@ -28,7 +28,7 @@ export default function ModuleBrowser(props) {
 	}
 
 	return (
-		<div className="container border border-warning">
+		<div className="container">
 			<h3 className="text-primary">Module Browser</h3>
 			<div className="row">
 				<div className="col">

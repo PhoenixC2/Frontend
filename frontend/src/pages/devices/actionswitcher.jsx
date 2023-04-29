@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from "react";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
+import { Dropdown, DropdownButton, Container, Row, Col } from "react-bootstrap";
 export default function ActionSwitcher(props) {
-	// actions are in the format: {"action": {/*component*/}, ...}
 	const [actions, setActions] = useState(props.actions);
-	const [device, setDevice] = useState(props.device);
 	const [activeAction, setActiveAction] = useState(Object.keys(actions)[0]);
+	const [device, setDevice] = useState(props.device);
+	const [activeTask, setActiveTask] = useState(null);
+	const [showActiveTask, setShowActiveTask] = useState(true);
 
 	useEffect(() => {
-		setActions(props.actions);
 		setDevice(props.device);
-	}, [props.actions, props.device]);
+		if (props.tasks && activeTask) {
+			const task = props.tasks.find((task) => task.id === activeTask.id);
+			setActiveTask(task);
+		}
+	}, [props.Device, props.tasks]);
 
-	// bootstrap container with select to switch between actions
 	return (
 		<div className="container-fluid border border-warning">
 			<h3 className="card-title text-primary">ActionSwitcher</h3>
@@ -42,7 +44,10 @@ export default function ActionSwitcher(props) {
 					<hr />
 					<div className="row">
 						<div className="col-sm-12">
-							{React.createElement(actions[activeAction])}
+							{React.createElement(actions[activeAction], {
+								device: device,
+								setActiveTask: setActiveTask,
+							})}
 						</div>
 					</div>
 				</>
@@ -56,6 +61,81 @@ export default function ActionSwitcher(props) {
 					</div>
 				</div>
 			)}
+			<div className="row">
+				<div className="col">
+					{activeTask && showActiveTask && (
+						<>
+							{activeTask.finished_at && (
+								<div className="card dark-background">
+									<div className="card-body">
+										<h3 className="card-title text-primary">
+											Last Task : {activeTask.name}
+										</h3>
+										<h4 className="card-text text-primary">
+											Success:{" "}
+											{activeTask.success ? "✅" : "❌"}
+										</h4>
+										<h4 className="card-title text-primary">
+											Output:
+										</h4>
+										<Container>
+											<Row>
+												{activeTask.action == "rce" && (
+													<pre className="pre-scrollable bg-dark text-light">
+														<code>
+															{activeTask.output}
+														</code>
+													</pre>
+												)}
+
+												{activeTask.action ==
+													"download" && (
+													<a
+														className="btn btn-primary"
+														href={`/api/misc/downloads/${activeTask.output}`}
+														target="_blank"
+													>
+														Download{" "}
+														{activeTask.output}
+													</a>
+												)}
+											</Row>
+											<Row>
+												<button
+													className="btn btn-danger"
+													onClick={() =>
+														setShowActiveTask(false)
+													}
+												>
+													Hide last task
+												</button>
+											</Row>
+										</Container>
+									</div>
+								</div>
+							)}
+
+							{!activeTask.finished_at && (
+								<div className="card dark-background">
+									<div className="card-body">
+										<h3 className="card-title text-primary">
+											Running Task...
+										</h3>
+									</div>
+								</div>
+							)}
+						</>
+					)}
+					{activeTask && !showActiveTask && (
+						<button
+							className="btn btn-primary"
+							onClick={() => setShowActiveTask(true)}
+						>
+							Show Last Task
+						</button>
+					)}
+				</div>
+			</div>
 		</div>
 	);
 }

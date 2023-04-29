@@ -55,7 +55,7 @@ export default function DashBoard() {
 								<p className="card-category">
 									Connected devices
 								</p>
-								<h3 className="card-title">
+								<h3 className="card-title text-primary">
 									{dashboard.active_devices}
 								</h3>
 							</div>
@@ -83,7 +83,7 @@ export default function DashBoard() {
 								<p className="card-category">
 									Active listeners
 								</p>
-								<h3 className="card-title">
+								<h3 className="card-title text-primary">
 									{dashboard.active_listeners}
 								</h3>
 							</div>
@@ -109,7 +109,7 @@ export default function DashBoard() {
 									<i className="material-icons">group</i>
 								</div>
 								<p className="card-category">Users active</p>
-								<h3 className="card-title">
+								<h3 className="card-title text-primary">
 									{dashboard.active_users}
 								</h3>
 							</div>
@@ -134,7 +134,7 @@ export default function DashBoard() {
 								<p className="card-category">
 									Connections last hour
 								</p>
-								<h3 className="card-title">
+								<h3 className="card-title text-primary">
 									{dashboard.connections_last_hour}
 								</h3>
 							</div>

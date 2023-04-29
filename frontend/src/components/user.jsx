@@ -14,7 +14,7 @@ export default function UserRender(props) {
   return (
     <>
       {user && (
-        <Link to={"/users/" + user.id} target="_blank">
+        <Link to={"/users/?user=" + user.id}>
           <img
             className="profile-picture"
             src={getPictureUrl(user.id)}

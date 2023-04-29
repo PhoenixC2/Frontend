@@ -23,7 +23,7 @@ export default function OptionsForm(props) {
               <div key={option.real_name}>
                 {option.type === "boolean" && (
                   <div className="form-check" key={option.real_name}>
-                    <label className="form-check-label">
+                    <label className="form-check-label text-primary">
                       <input type="hidden" name={option.real_name} value="off" />
                       <input
                         className="form-check-input"
@@ -44,7 +44,7 @@ export default function OptionsForm(props) {
                 )}
                 {option.type === "address" && (
                   <div className="form-group"key={option.real_name}>
-                    <label htmlFor={option.real_name}>{option.name}</label>
+                    <label className="text-primary" htmlFor={option.real_name}>{option.name}</label>
                     <input
                       list="addresses"
                       className="form-control"
@@ -69,7 +69,7 @@ export default function OptionsForm(props) {
                 )}
                 {option.type === "port" && (
                   <div className="form-group" key={option.real_name}>
-                    <label htmlFor={option.real_name}>{option.name}</label>
+                    <label className="text-primary" htmlFor={option.real_name}>{option.name}</label>
                     <input
                       className="form-control md-label-static"
                       type="number"
@@ -85,7 +85,7 @@ export default function OptionsForm(props) {
                 )}
                 {option.type === "choice" && (
                   <div className="form-group" key={option.real_name}>
-                    <label htmlFor={option.real_name}>{option.name}</label>
+                    <label className="text-primary" htmlFor={option.real_name}>{option.name}</label>
                     <select className="form-control" name={option.real_name}>
                       {Object.keys(option.type_data.choices).map((choice) => (
                         <option selected={choice === option.default} value={choice} key={choice}>
@@ -100,7 +100,7 @@ export default function OptionsForm(props) {
                 )}
                 {option.type === "table" && (
                   <div className="form-group" key={option.real_name}>
-                    <label htmlFor={option.real_name}>{option.name}</label>
+                    <label className="text-primary" htmlFor={option.real_name}>{option.name}</label>
                     <select className="form-control" name={option.real_name}>
                       {Object.keys(option.type_data.choices).map((choice) => (
                         <option value={choice} key={choice}>{choice}</option>
@@ -113,7 +113,7 @@ export default function OptionsForm(props) {
                 )}
                 {option.type === "string" && (
                   <div className="form-group" key={option.real_name}>
-                    <label htmlFor={option.real_name}>{option.name}</label>
+                    <label className="text-primary" htmlFor={option.real_name}>{option.name}</label>
                     <input
                       className="form-control"
                       type="text"
@@ -127,7 +127,7 @@ export default function OptionsForm(props) {
                 )}
                 {option.type === "integer" && (
                   <div className="form-group" key={option.real_name}>
-                    <label htmlFor={option.real_name}>{option.name}</label>
+                    <label className="text-primary" htmlFor={option.real_name}>{option.name}</label>
                     <input
                       className="form-control"
                       type="number"

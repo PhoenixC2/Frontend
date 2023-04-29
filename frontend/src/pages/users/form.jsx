@@ -96,10 +96,10 @@ export default function Form(props) {
 									id="picture-preview"
 									src={profilePicture}
 									className="profile-picture"
-									// onError={(e) => {
-									// 	e.target.onerror = null;
-									// 	e.target.src = "/icon.png";
-									// }}
+									onError={(e) => {
+										e.target.onerror = null;
+										e.target.src = "/icon.png";
+									}}
 								/>
 							</div>
 						</div>

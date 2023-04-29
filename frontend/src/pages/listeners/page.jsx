@@ -174,7 +174,7 @@ export default function Listeners(props) {
             body={
               <TypeSwitcher
                 types={listenerTypes}
-                name="Listener Types"
+                name="Listener Type"
                 description="Select the type of listener you want to create."
                 handleSubmit={() => createHandleSubmit}
               />

@@ -12,6 +12,7 @@ export default function showNotification(message, status) {
             from: "top",
             align: "right"
         },
+        z_index: 9999,
         allow_duplicates: false,
     });
 }
