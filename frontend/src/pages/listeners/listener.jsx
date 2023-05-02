@@ -15,7 +15,7 @@ export default function Listener(props) {
 
 	// show edit modal
 	function showEditModal() {
-		props.setCurrentEditListener(listener.id);
+		props.setCurrentEditListener(listener);
 		props.setShowEditModal(true);
 	}
 
@@ -57,7 +57,7 @@ export default function Listener(props) {
 
 	async function remove() {
 		const response = await request(
-			`listeners/${listener.id}/remove`,
+			`listeners/${listener.id}/remove?stop=true`,
 			"DELETE"
 		);
 		const responseData = await response.json();

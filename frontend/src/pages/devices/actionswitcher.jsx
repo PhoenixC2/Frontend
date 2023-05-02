@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Dropdown, DropdownButton, Container, Row, Col } from "react-bootstrap";
+import {
+	Card,
+	Container,
+	Row,
+	Col,
+	Dropdown,
+	DropdownButton,
+	Button,
+} from "react-bootstrap";
+
 export default function ActionSwitcher(props) {
 	const [actions, setActions] = useState(props.actions);
 	const [activeAction, setActiveAction] = useState(Object.keys(actions)[0]);
@@ -16,12 +25,12 @@ export default function ActionSwitcher(props) {
 	}, [props.Device, props.tasks]);
 
 	return (
-		<div className="container-fluid border border-warning">
+		<Container fluid className="border border-warning rounded p-3">
 			<h3 className="card-title text-primary">ActionSwitcher</h3>
 			{device.connected && (
 				<>
-					<div className="row">
-						<div className="col">
+					<Row>
+						<Col>
 							<DropdownButton
 								id="dropdown-basic-button"
 								title="Actions"
@@ -39,45 +48,54 @@ export default function ActionSwitcher(props) {
 									);
 								})}
 							</DropdownButton>
-						</div>
-					</div>
+						</Col>
+					</Row>
 					<hr />
-					<div className="row">
-						<div className="col-sm-12">
+					<Row>
+						<Col>
 							{React.createElement(actions[activeAction], {
 								device: device,
 								setActiveTask: setActiveTask,
 							})}
-						</div>
-					</div>
+						</Col>
+					</Row>
 				</>
 			)}
 			{!device.connected && (
-				<div className="row">
-					<div className="col">
+				<Row>
+					<Col>
 						<h4 className="card-title text-danger">
 							Device not connected
 						</h4>
-					</div>
-				</div>
+					</Col>
+				</Row>
 			)}
-			<div className="row">
-				<div className="col">
+			<Row>
+				<Col>
 					{activeTask && showActiveTask && (
 						<>
 							{activeTask.finished_at && (
-								<div className="card dark-background">
-									<div className="card-body">
-										<h3 className="card-title text-primary">
+								<Card className="dark-background">
+									<Card.Body>
+										<Card.Title
+											className="text-primary"
+											as="h3"
+										>
 											Last Task : {activeTask.name}
-										</h3>
-										<h4 className="card-text text-primary">
+										</Card.Title>
+										<Card.Text
+											className="text-primary"
+											as="h4"
+										>
 											Success:{" "}
 											{activeTask.success ? "✅" : "❌"}
-										</h4>
-										<h4 className="card-title text-primary">
+										</Card.Text>
+										<Card.Text
+											className="text-primary"
+											as="h4"
+										>
 											Output:
-										</h4>
+										</Card.Text>
 										<Container>
 											<Row>
 												{activeTask.action == "rce" && (
@@ -101,41 +119,43 @@ export default function ActionSwitcher(props) {
 												)}
 											</Row>
 											<Row>
-												<button
-													className="btn btn-danger"
+												<Button
+													variant="danger"
 													onClick={() =>
 														setShowActiveTask(false)
 													}
 												>
 													Hide last task
-												</button>
+												</Button>
 											</Row>
 										</Container>
-									</div>
-								</div>
+									</Card.Body>
+								</Card>
 							)}
-
 							{!activeTask.finished_at && (
-								<div className="card dark-background">
-									<div className="card-body">
-										<h3 className="card-title text-primary">
+								<Card className="dark-background">
+									<Card.Body>
+										<Card.Title
+											className="text-primary"
+											as="h3"
+										>
 											Running Task...
-										</h3>
-									</div>
-								</div>
+										</Card.Title>
+									</Card.Body>
+								</Card>
 							)}
 						</>
 					)}
 					{activeTask && !showActiveTask && (
-						<button
-							className="btn btn-primary"
+						<Button
+							variant="primary"
 							onClick={() => setShowActiveTask(true)}
 						>
 							Show Last Task
-						</button>
+						</Button>
 					)}
-				</div>
-			</div>
-		</div>
+				</Col>
+			</Row>
+		</Container>
 	);
 }

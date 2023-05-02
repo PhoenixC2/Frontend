@@ -48,7 +48,8 @@ export default function LoginForm() {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-md-6 offset-md-3">
+        {/* center vertically and horizontally */}
+        <div className="col-md-6 mx-auto mt-5">
           <div className="card">
             <div className="card-header">
               <h3 className="text-center text-warning">PhoenixC2</h3>

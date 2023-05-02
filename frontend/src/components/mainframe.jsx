@@ -5,7 +5,7 @@ export default function MainFrame(props) {
   const body = props.body ? props.body : <div>Empty</div>;
 
   return (
-    <div className="wrapper">
+    <>
       <SideBar />
       <div className="main-panel">
         <NavBar />
@@ -13,6 +13,6 @@ export default function MainFrame(props) {
           <div className="container-fluid">{body}</div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

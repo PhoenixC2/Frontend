@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getData } from "../../logic/api";
-import { getPictureUrl } from "../../logic/user";
-import request from "../../logic/api";
 import showNotification from "../../logic/notify";
 import Form from "./form";
 import Modal from "../../components/modal";
+import User from "./user";
 
 export default function Users(props) {
 	const [currentUserEdit, setCurrentUserEdit] = useState(null);
@@ -18,11 +17,7 @@ export default function Users(props) {
 		setCurrentUserEdit(user);
 		setShowEditModal(true);
 	}
-	async function deleteUser(user_id) {
-		const response = await request(`/users/${user_id}/remove`, "DELETE");
-		const data = await response.json();
-		showNotification(data.message, data.status);
-	}
+
 	const {
 		data: users,
 		isLoading,
@@ -45,11 +40,10 @@ export default function Users(props) {
 				toggleShowEditModal(user);
 			} else {
 				showNotification("User not found", "danger");
-      }
+			}
+		} else if (searchParams.has("create")) {
+			setShowCreateModal(true);
 		}
-    else if (searchParams.has("create")) {
-      setShowCreateModal(true);
-    }
 	}, []);
 
 	return (
@@ -71,59 +65,7 @@ export default function Users(props) {
 					<tbody>
 						{users &&
 							users.map((user) => (
-								<tr className="dark-background" key={user.id}>
-									<td className="text-center">{user.id}</td>
-									<td>
-										<i
-											title={user.status}
-											className="material-icons"
-											// set color to green if user is active, orange if inactive and red if offline
-											style={{
-												color: user.status
-													? "green"
-													: user.status
-													? "orange"
-													: "red",
-												marginTop: "4px",
-												marginLeft: "4px",
-											}}
-										>
-											circle
-										</i>
-									</td>
-									<td>
-										<img
-											className="profile-picture"
-											src={getPictureUrl(user.id)}
-											onError={(e) => {
-												e.target.onerror = null;
-												e.target.src = "/icon.png";
-											}}
-										/>
-									</td>
-									<td>{user.username}</td>
-									<td>{user.admin ? "✅" : "❌"}</td>
-									<td>{user.disabled ? "✅" : "❌"}</td>
-									<td>{user.last_activity ?? "Never"}</td>
-									<td>
-										<button
-											type="button"
-											className="btn btn-warning"
-											onClick={() =>
-												toggleShowEditModal(user)
-											}
-										>
-											Edit
-										</button>
-										<button
-											type="button"
-											className="btn btn-danger"
-											onClick={() => deleteUser(user.id)}
-										>
-											Delete
-										</button>
-									</td>
-								</tr>
+								<User key={user.id} user={user} toggleShowEditModal={toggleShowEditModal} />
 							))}
 						{isLoading && (
 							<tr className="dark-background">

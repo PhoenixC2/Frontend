@@ -11,6 +11,15 @@ export default function request(route, method, body) {
   });
 }
 
+export async function uploadFile(route, file){
+  return fetch("/api/" + route,{
+    method: "POST",
+    body: file,
+    headers: {
+      "Api-Key": Cookies.get("api_key") || ""
+    }
+  })
+}
 
 export async function getData(route) {
   const response = await request(route, "GET");

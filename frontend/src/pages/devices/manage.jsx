@@ -13,8 +13,7 @@ import request, { getData } from "../../logic/api";
 import showNotification from "../../logic/notify";
 import Paginate from "../../components/paginate";
 import ActionSwitcher from "./actionswitcher";
-import ModuleBrowser from "./modulebrowser";
-import { ExecuteCommand, ReverseShell, DownloadFile, UploadFile } from "./actions";
+import { ExecuteCommand, ReverseShell, DownloadFile, UploadFile, ModuleBrowser } from "./actions";
 import TasksTable from "./tasks";
 
 export default function Manage(props) {
