@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import request from "../../logic/api";
 import { getPictureUrl } from "../../logic/user";
+import showNotification from "../../logic/notify";
 
 export default function User(props) {
 	const [user, setUser] = useState(props.user);
@@ -53,15 +54,17 @@ export default function User(props) {
 					type="button"
 					className="btn btn-warning"
 					onClick={() => props.toggleShowEditModal(user)}
+					title="Edit"
 				>
-					Edit
+					<i className="material-icons">edit</i>
 				</button>
 				<button
 					type="button"
 					className="btn btn-danger"
 					onClick={deleteUser}
+					title="Delete"
 				>
-					Delete
+					<i className="material-icons">delete</i>
 				</button>
 			</td>
 		</tr>

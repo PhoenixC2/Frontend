@@ -11,15 +11,12 @@ import Modules from "./pages/modules";
 import Users from "./pages/users";
 import Credentials from "./pages/credentials";
 import Logs from "./pages/logs";
+import Bypasses from "./pages/bypasses";
 
 const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginForm />,
-  },
-  {
-    path: "/",
-    element: <MainFrame body={<DashBoard />} />,
   },
   {
     path: "/dashboard",
@@ -60,6 +57,10 @@ const router = createBrowserRouter([
   {
     path: "/logs",
     element: <MainFrame body={<Logs />} />,
+  },
+  {
+    path: "/bypasses",
+    element: <MainFrame body={<Bypasses />} />,
   },
 ]);
 export default router;

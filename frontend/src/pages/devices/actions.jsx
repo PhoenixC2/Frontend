@@ -249,7 +249,6 @@ export function ModuleBrowser(props) {
 							<div
 								className="card dark-background"
 								key={module.id}
-								onClick={() => props.setModule(module)}
 							>
 								<div className="card-body" key={module.id}>
 									<h5 className="card-title text-primary">

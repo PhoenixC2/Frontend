@@ -36,15 +36,17 @@ export default function Device(props) {
 					type="button"
 					className="btn btn-warning"
 					onClick={showManageModal}
+					title="Manage"
 				>
-					Manage
+					<i className="material-icons">settings</i>
 				</button>
 				<button
 					type="button"
 					className="btn btn-danger"
 					onClick={() => props.clearDevice(device.id)}
+					title="Clear"
 				>
-					Clear
+					<i className="material-icons">delete</i>
 				</button>
 			</td>
 		</tr>

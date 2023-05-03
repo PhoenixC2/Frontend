@@ -29,7 +29,7 @@ export default function LoginForm() {
       return;
     }
     showNotification("Logged in with API-Key", "success");
-    navigate("/");
+    navigate("/dashboard");
   }
   async function loginWithCredentials() {
     const response = await request("auth/login", "POST", {
@@ -42,7 +42,7 @@ export default function LoginForm() {
       sameSite: "none",
       secure: true,
     });
-    navigate("/");
+    navigate("/dashboard");
   }
 
   return (

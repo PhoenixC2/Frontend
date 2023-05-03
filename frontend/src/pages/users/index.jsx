@@ -8,13 +8,13 @@ import Modal from "../../components/modal";
 import User from "./user";
 
 export default function Users(props) {
-	const [currentUserEdit, setCurrentUserEdit] = useState(null);
+	const [currentEditUser, setCurrentEditUSer] = useState(null);
 	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	function toggleShowEditModal(user) {
-		setCurrentUserEdit(user);
+		setCurrentEditUSer(user);
 		setShowEditModal(true);
 	}
 
@@ -103,15 +103,15 @@ export default function Users(props) {
 				title="Add User"
 				body={<Form setShow={setShowCreateModal} />}
 			/>
-			{currentUserEdit && (
+			{currentEditUser && (
 				<Modal
-					show={currentUserEdit !== null}
-					setShow={setCurrentUserEdit}
+					show={showEditModal}
+					setShow={setShowEditModal}
 					title="Edit User"
 					body={
 						<Form
-							setShow={setCurrentUserEdit}
-							user={currentUserEdit}
+							setShow={setCurrentEditUSer}
+							user={currentEditUser}
 						/>
 					}
 				/>

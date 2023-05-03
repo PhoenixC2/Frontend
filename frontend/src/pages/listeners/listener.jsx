@@ -120,8 +120,8 @@ export default function Listener(props) {
 							className="btn btn-warning"
 							data-toggle="tooltip"
 							data-placement="top"
-							title="Edit"
 							onClick={showEditModal}
+							title="Edit"
 						>
 							<i className="material-icons">edit</i>
 						</button>

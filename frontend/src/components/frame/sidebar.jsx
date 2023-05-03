@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+
 export const icons = {
   dashboard: "dashboard",
   operations: "public",
@@ -12,17 +13,20 @@ export const icons = {
   credentials: "vpn_key",
   logs: "event_note",
   auth: "lock",
+  bypasses: "link",
 };
 
 function NavItem(props) {
   const text = props.text;
-  const route = props.route;
+  let route = props.route;
   const lowerCaseText = text.toLowerCase();
+
   // set status to "active" if the current path is the same as the route
-  const status = useLocation().pathname === route ? "active" : "";
+  const status = useLocation().pathname.includes(route) ? "active" : "";
+
   return (
     <li className={"nav-item " + status}>
-      <Link className="nav-link" to={route}>
+      <Link className="nav-link" to={"/"+ route}>
         <i className="material-icons">{icons[lowerCaseText]}</i>
         <p>{text}</p>
       </Link>
@@ -32,16 +36,17 @@ function NavItem(props) {
 
 export default function SideBar() {
   const routes = {
-    Dashboard: "/",
-    Operations: "/operations",
-    Devices: "/devices",
-    Listeners: "/listeners",
-    Stagers: "/stagers",
-    Loaders: "/loaders",
-    Modules: "/modules",
-    Users: "/users",
-    Credentials: "/credentials",
-    Logs: "/logs",
+    Dashboard: "dashboard",
+    Operations: "operations",
+    Devices: "devices",
+    Listeners: "listeners",
+    Stagers: "stagers",
+    Loaders: "loaders",
+    Modules: "modules",
+    Users: "users",
+    Credentials: "credentials",
+    Logs: "logs",
+    Bypasses: "bypasses",
   };
   return (
     <div
@@ -51,7 +56,7 @@ export default function SideBar() {
       data-image="/icon.png"
     >
       <div className="logo">
-        <a href="/" className="simple-text logo-normal">
+        <a href="/" className="simple-text logo-normal text-primary">
           PhoenixC2
         </a>
       </div>

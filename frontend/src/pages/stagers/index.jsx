@@ -39,7 +39,6 @@ export default function Stagers(props) {
 		{ refetchInterval: 10000 }
 	);
 
-	console.log(currentEditStager)
 	return (
 		<>
 			<div className="table-responsive">
@@ -55,11 +54,12 @@ export default function Stagers(props) {
 						</tr>
 					</thead>
 					<tbody>
-						{stagers &&
+						{stagers && stagerTypes &&
 							stagers.map((stager) => (
 								<Stager
+								key={stager.id}
 									stager={stager}
-									key={stager.id}
+									stagerTypes={stagerTypes}
 									setCurrentEditStager={setCurrentEditStager}
 									setShowEditModal={setShowEditModal}
 								/>

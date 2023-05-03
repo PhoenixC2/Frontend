@@ -38,7 +38,10 @@ export default function Listeners(props) {
 
 	useEffect(() => {
 		if (searchParams.get("listener")) {
-			setCurrentEditListener(searchParams.get("listener"));
+			const listener = listeners.find(
+				(listener) => listener.id == searchParams.get("listener")
+			);
+			setCurrentEditListener(listener);
 			setShowEditModal(true);
 		} else if (searchParams.has("create")) {
 			setShowCreateModal(true);

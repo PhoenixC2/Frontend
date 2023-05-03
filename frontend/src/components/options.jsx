@@ -16,11 +16,6 @@ export default function Options(props) {
 	if (isEdit) {
 		modifiedOptions = options.filter((option) => option.editable);
 	}
-
-	console.log("Options: ", modifiedOptions);
-	console.log("Element: " + element);
-	console.log("Edit: " + isEdit);
-
 	return (
 		<>
 			{modifiedOptions &&
