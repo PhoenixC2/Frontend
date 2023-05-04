@@ -26,7 +26,7 @@ export default function ActionSwitcher(props) {
 
 	return (
 		<Container fluid className="border border-warning rounded p-3">
-			<h3 className="card-title text-primary">ActionSwitcher</h3>
+			<h3 className="card-title text-primary">Actions</h3>
 			{device.connected && (
 				<>
 					<Row>

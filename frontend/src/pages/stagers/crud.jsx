@@ -49,7 +49,7 @@ function Form(props) {
 				</div>
 				{payload && type.payloads[payload].options.length > 0 && (
 					<>
-						<h4 className="text-primary">Payload Options</h4>
+						<h4 className="text-primary">Payload Options: {payload}</h4>
 						<Options
 							options={type.payloads[payload].options}
 							element={stager ? stager.options : undefined}

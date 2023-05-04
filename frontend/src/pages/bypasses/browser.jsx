@@ -9,12 +9,17 @@ export default function BypassBrowser(props) {
 		setBypasses(props.bypasses);
 	}, [props.bypasses]);
 
+	function changeCategory(e) {
+		setCurrentCategory(e.target.value);
+		props.setCategory(e.target.value);
+	}
 	const categories = Object.keys(bypasses);
 
-	if (currentCategory === null){
-		setCurrentCategory(categories[0])
+	if (currentCategory === null) {
+		setCurrentCategory(categories[0]);
+		props.setCategory(categories[0]);
 	}
-	console.log(bypasses[currentCategory])
+
 	const filteredBypasses = bypasses[currentCategory]?.filter((bypass) =>
 		bypass.name.toLowerCase().includes(search.toLowerCase())
 	);
@@ -23,7 +28,7 @@ export default function BypassBrowser(props) {
 		<div className="container">
 			<div className="row">
 				<div className="col">
-				<label htmlFor="search">Search</label>
+					<label htmlFor="search">Search</label>
 					<input
 						id="search"
 						type="text"
@@ -37,7 +42,7 @@ export default function BypassBrowser(props) {
 					<select
 						id="category"
 						className="form-control"
-						onChange={(e) => setCurrentCategory(e.target.value)}
+						onChange={changeCategory}
 					>
 						{categories &&
 							categories.map((category) => (

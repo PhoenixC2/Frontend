@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import request from "../../logic/api";
 import showNotification from "../../logic/notify";
+
 export default function Stager(props) {
 	const [stager, setStager] = useState(props.stager);
 
@@ -18,7 +19,10 @@ export default function Stager(props) {
 
 	async function recompileStager() {
 		// downloads the payload with recompile argument set to true
-		const response = await request(`stagers/${stager.id}/download?recompile?=true`, "GET");
+		const response = await request(
+			`stagers/${stager.id}/download?recompile?=true`,
+			"GET"
+		);
 		if (response.status === 200) {
 			showNotification("Stager recompiled successfully", "success");
 		}
@@ -32,7 +36,11 @@ export default function Stager(props) {
 		props.setCurrentEditStager(stager);
 		props.setShowEditModal(true);
 	}
-	const payload = props.stagerTypes[stager.listener.type].payloads[stager.payload];
+	console.log(props.stagerTypes);
+	console.log(stager);
+	console.log(stager.listener.type)
+	const payload =
+		props.stagerTypes[stager.listener.type].payloads[stager.payload];
 
 	return (
 		<tr className="dark-background" key={stager.id}>
@@ -55,7 +63,11 @@ export default function Stager(props) {
 					<i className="material-icons">get_app</i>
 				</Link>
 				{payload && payload.compiled && (
-					<Button variant="info" title="Recompile" onClick={recompileStager}>
+					<Button
+						variant="info"
+						title="Recompile"
+						onClick={recompileStager}
+					>
 						<i className="material-icons">build</i>
 					</Button>
 				)}

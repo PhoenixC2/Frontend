@@ -13,8 +13,9 @@ export const icons = {
   credentials: "vpn_key",
   logs: "event_note",
   auth: "lock",
-  bypasses: "link",
+  bypasses: "lock_open",
 };
+
 
 function NavItem(props) {
   const text = props.text;
