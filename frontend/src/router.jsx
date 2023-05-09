@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, redirect } from "react-router-dom";
 import MainFrame from "./components/mainframe";
 import LoginForm from "./pages/login";
 import DashBoard from "./pages/dashboard";
@@ -21,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <MainFrame body={<DashBoard />} />,
+  },
+  {
+    path: "/",
+    loader : () => redirect("/dashboard"),
   },
   {
     path: "/operations",
