@@ -110,6 +110,7 @@ export default function ActionSwitcher(props) {
 													"download" && (
 													<a
 														className="btn btn-primary"
+														rel="noreferrer noopener"
 														href={`/api/misc/downloads/${activeTask.output}`}
 														target="_blank"
 													>
