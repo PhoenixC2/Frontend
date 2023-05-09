@@ -126,10 +126,12 @@ export default function Options(props) {
 								<select
 									className="form-control"
 									name={option.real_name}
+									defaultValue={
+										isEdit ? element[option.real_name] : option.default
+									}
 								>
 									{option.type_data.choices.map((choice) => (
 										<option
-											selected={choice === option.default}
 											value={choice}
 											key={choice}
 										>

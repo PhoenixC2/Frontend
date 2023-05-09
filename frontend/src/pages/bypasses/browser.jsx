@@ -64,7 +64,7 @@ export default function BypassBrowser(props) {
 					{filteredBypasses &&
 						filteredBypasses.map((bypass) => (
 							<div
-								className="card dark-background"
+								className="card"
 								key={currentCategory + "-" + bypass.name}
 							>
 								<div className="card-body" key={bypass.id}>
@@ -93,8 +93,8 @@ export default function BypassBrowser(props) {
 						))}
 					{!bypasses && <p>No bypasses found</p>}
 					{filteredBypasses && !filteredBypasses.length && (
-						<div className="card dark-background">
-							<p className="text-danger">No bypasses found</p>
+						<div className="card">
+							<p className="text-danger">No {currentCategory} found</p>
 						</div>
 					)}
 				</div>

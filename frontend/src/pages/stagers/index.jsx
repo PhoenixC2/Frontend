@@ -65,21 +65,21 @@ export default function Stagers(props) {
 								/>
 							))}
 						{isLoading && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-warning" colSpan="9">
 									Loading...
 								</td>
 							</tr>
 						)}
 						{isError && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-danger" colSpan="9">
 									Error fetching stagers
 								</td>
 							</tr>
 						)}
 						{stagers && stagers.length === 0 && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-warning" colSpan="9">
 									No stagers found
 								</td>

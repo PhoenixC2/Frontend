@@ -93,14 +93,14 @@ export default function Listeners(props) {
 								/>
 							))}
 						{isLoading && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-warning" colSpan="9">
 									Loading...
 								</td>
 							</tr>
 						)}
 						{isError && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-danger" colSpan="9">
 									Error fetching listeners
 								</td>
@@ -108,7 +108,7 @@ export default function Listeners(props) {
 						)}
 
 						{listeners && listeners.length === 0 && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-warning" colSpan="9">
 									No listeners found
 								</td>

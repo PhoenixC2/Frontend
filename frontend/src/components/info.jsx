@@ -1,19 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Info(props) {
   // Info card for the listener type
-  const [type] = useState(props.type);
+  const [type, setType] = useState(props.type);
+
+  useEffect(() => {
+    setType(props.type);
+  }, [props]);
+    
   return (
-    <div className="card dark-background">
+    <div className="card">
       <div className="card-header">
         <h5 className="card-title text-primary">{type.name}</h5>
       </div>
       <div className="card-body">
         <p className="card-text">{type.description}</p>
-        {type.features && (
+        {props.additionalInfo}
+        {type.features && type.features.length > 0 && (
           <>
-            <h6 className="card-subtitle mb-2 text-muted">Features</h6>
-            <ul className="list-group list-group-flush">
+            <h6 className="card-subtitle">Features</h6>
+            <ul className="list-group">
               {type.features.map((feature) => (
                 <li className="list-group-item" key={feature.name}>
                   {feature.pro ? "✅" : "❌"}{" "}
@@ -23,12 +29,12 @@ export default function Info(props) {
                 </li>
               ))}
             </ul>
+
           </>
+          
         )}
         {/* author */}
-        <p className="card-text">
-          <small className="text-muted">Created by: {type.author}</small>
-        </p>
+        <small className="text-muted">Created by: {type.author}</small>
       </div>
     </div>
   );

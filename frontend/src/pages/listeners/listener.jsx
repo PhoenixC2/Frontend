@@ -67,7 +67,7 @@ export default function Listener(props) {
 	return (
 		<>
 			{listener && (
-				<tr className="dark-background">
+				<tr>
 					<td className="text-center">{listener.id}</td>
 					<td>
 						<Active active={listener.active && !restartActive} />

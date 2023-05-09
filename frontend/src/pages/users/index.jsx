@@ -68,21 +68,21 @@ export default function Users(props) {
 								<User key={user.id} user={user} toggleShowEditModal={toggleShowEditModal} />
 							))}
 						{isLoading && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-warning" colSpan="8">
 									Loading...
 								</td>
 							</tr>
 						)}
 						{isError && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-danger" colSpan="8">
 									Error fetching users
 								</td>
 							</tr>
 						)}
 						{users && users.length === 0 && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-warning" colSpan="8">
 									No users found
 								</td>

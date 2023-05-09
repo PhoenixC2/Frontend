@@ -8,7 +8,7 @@ export default function Chain(props) {
 	}, [props.chain]);
 
 	return (
-		<tr className="dark-background">
+		<tr>
 			<td className="text-center">{chain.id}</td>
 			<td>{chain.name}</td>
 			<td>

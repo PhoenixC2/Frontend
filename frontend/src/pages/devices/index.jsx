@@ -82,21 +82,21 @@ export default function Devices(props) {
 								/>
 							))}
 						{isLoading && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-warning" colSpan="11">
 									Loading...
 								</td>
 							</tr>
 						)}
 						{isError && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-danger" colSpan="11">
 									Error fetching devices
 								</td>
 							</tr>
 						)}
 						{devices && devices.length === 0 && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-warning" colSpan="11">
 									No devices found
 								</td>

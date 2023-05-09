@@ -79,7 +79,6 @@ export default function Modules(props) {
 						{modules &&
 							modules.map((module) => (
 								<tr
-									className="dark-background"
 									key={module.name}
 								>
 									<td>{module.name}</td>
@@ -100,21 +99,21 @@ export default function Modules(props) {
 								</tr>
 							))}
 						{isLoading && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-warning" colSpan="4">
 									Loading...
 								</td>
 							</tr>
 						)}
 						{isError && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-danger" colSpan="4">
 									Error fetching modules
 								</td>
 							</tr>
 						)}
 						{modules && modules.length === 0 && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-warning" colSpan="9">
 									No modules found
 								</td>

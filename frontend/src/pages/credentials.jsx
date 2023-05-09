@@ -33,7 +33,7 @@ export default function Credentials(props) {
         <tbody>
           {credentials &&
             credentials.map((credential) => (
-              <tr className="dark-background" key={credential.id}>
+              <tr  key={credential.id}>
                 <td>{credential.id}</td>
                 <td>{credential.user ? credential.user : "None"}</td>
                 <td>{credential.value}</td>
@@ -49,21 +49,21 @@ export default function Credentials(props) {
               </tr>
             ))}
           {isLoading && (
-            <tr className="dark-background">
+            <tr>
               <td className="text-warning" colSpan="9">
                 Loading...
               </td>
             </tr>
           )}
           {isError && (
-            <tr className="dark-background">
+            <tr>
               <td className="text-danger" colSpan="5">
                 Error fetching credentials
               </td>
             </tr>
           )}
           {credentials && credentials.length === 0 && (
-            <tr className="dark-background">
+            <tr>
               <td className="text-warning" colSpan="5">
                 No credentials found
               </td>

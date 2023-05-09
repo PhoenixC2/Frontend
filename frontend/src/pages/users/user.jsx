@@ -16,7 +16,7 @@ export default function User(props) {
 		showNotification(data.message, data.status);
 	}
 	return (
-		<tr className="dark-background">
+		<tr>
 			<td className="text-center">{user.id}</td>
 			<td>
 				<i

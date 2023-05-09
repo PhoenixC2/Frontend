@@ -43,7 +43,6 @@ export default function Logs(props) {
             {logs &&
               logs.map((log) => (
                 <tr
-                  className="dark-background"
                   key={log.id}
                 >
                   <td className="text-center">{log.id}</td>
@@ -71,21 +70,21 @@ export default function Logs(props) {
                 </tr>
               ))}
             {isLoading && (
-              <tr className="dark-background">
+              <tr>
                 <td className="text-warning" colSpan="6">
                   Loading...
                 </td>
               </tr>
             )}
             {isError && (
-              <tr className="dark-background">
+              <tr>
                 <td className="text-danger" colSpan="6">
                   Error fetching logs
                 </td>
               </tr>
             )}
             {logs && logs.length === 0 && (
-              <tr className="dark-background">
+              <tr>
                 <td className="text-warning" colSpan="6">
                   No Logs found
                 </td>

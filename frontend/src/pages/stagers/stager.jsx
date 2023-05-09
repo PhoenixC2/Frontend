@@ -36,14 +36,12 @@ export default function Stager(props) {
 		props.setCurrentEditStager(stager);
 		props.setShowEditModal(true);
 	}
-	console.log(props.stagerTypes);
-	console.log(stager);
-	console.log(stager.listener.type)
+	
 	const payload =
 		props.stagerTypes[stager.listener.type].payloads[stager.payload];
 
 	return (
-		<tr className="dark-background" key={stager.id}>
+		<tr key={stager.id}>
 			<td className="text-center">{stager.id}</td>
 			<td>{stager.name}</td>
 			<td>
@@ -65,7 +63,7 @@ export default function Stager(props) {
 				{payload && payload.compiled && (
 					<Button
 						variant="info"
-						title="Recompile"
+						title="Compile"
 						onClick={recompileStager}
 					>
 						<i className="material-icons">build</i>

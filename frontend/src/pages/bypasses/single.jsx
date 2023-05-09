@@ -12,13 +12,13 @@ export default function RunSingleBypass(props) {
     async function downloadStager() {
         //TODO: update to work for binary stagers
         const response = await request(`bypasses/run/${selectedCategory}/${selectedBypass.name.toLowerCase()}?stager=${selectedStager.id}`)
-        const data = await response.json();
 
+		
         // download content as file
-        if (data.status == "success") {
+        if (response.ok) {
+			const blob = await response.blob()
             const element = document.createElement("a");
-            const file = new Blob([data.stager], {type: "text/plain"});
-            element.href = URL.createObjectURL(file);
+            element.href = URL.createObjectURL(blob);
             element.download = `${selectedStager.name}-${selectedBypass.name}-bypass`;
             document.body.appendChild(element); // Required for this to work in FireFox
             element.click();
@@ -27,6 +27,7 @@ export default function RunSingleBypass(props) {
             document.body.removeChild(element);
         }
         else {
+			const data = await response.json();
             showNotification(data.message, data.status);
         }
     }

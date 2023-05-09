@@ -38,7 +38,7 @@ export default function Operations(props) {
           {operations &&
             operations.length > 0 &&
             operations.map((operation) => (
-              <tr className="dark-background" key={operation.id}>
+              <tr key={operation.id}>
                 <td className="text-center">{operation.id}</td>
                 <td>
                   <img
@@ -77,17 +77,17 @@ export default function Operations(props) {
               </tr>
             ))}
           {isLoading && (
-            <tr className="dark-background">
+            <tr>
               <td className="text-warning" colSpan="9">Loading...</td>
             </tr>
           )}
           {isError && (
-            <tr className="dark-background">
+            <tr>
               <td className="text-danger" colSpan="9">Error fetching operations</td>
             </tr>
           )}
           {operations && operations.length === 0 && (
-            <tr className="dark-background">
+            <tr>
               <td className="text-warning" colSpan="9">No operations found</td>
             </tr>
           )}

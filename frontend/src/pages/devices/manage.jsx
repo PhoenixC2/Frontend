@@ -13,8 +13,15 @@ import request, { getData } from "../../logic/api";
 import showNotification from "../../logic/notify";
 import Paginate from "../../components/paginate";
 import ActionSwitcher from "./actionswitcher";
-import { ExecuteCommand, ReverseShell, DownloadFile, UploadFile, ModuleBrowser } from "./actions";
+import {
+	ExecuteCommand,
+	ReverseShell,
+	DownloadFile,
+	UploadFile,
+	ModuleBrowser,
+} from "./actions";
 import TasksTable from "./tasks";
+import { Card } from "react-bootstrap";
 
 export default function Manage(props) {
 	const [device, setDevice] = useState(props.device);
@@ -55,7 +62,7 @@ export default function Manage(props) {
 			<Container fluid>
 				<Row>
 					<Col sm={4}>
-						<div className="card dark-background border border-warning">
+						<div className="card border border-warning">
 							<div className="card-body">
 								<h3 className="card-title text-primary">
 									Infos
@@ -118,7 +125,7 @@ export default function Manage(props) {
 						</div>
 					</Col>
 					<Col sm={8}>
-						<div className="card dark-background border border-warning">
+						<div className="card border border-warning">
 							<div className="card-header">
 								<h3 className="card-title text-warning">
 									Tasks
@@ -131,9 +138,12 @@ export default function Manage(props) {
 									content={TasksTable}
 								/>
 								{tasks && tasks.length > 0 && (
-								<button className="btn btn-danger" onClick={() => clearTask("all")}>
-									Clear All
-								</button>
+									<button
+										className="btn btn-danger"
+										onClick={() => clearTask("all")}
+									>
+										Clear All
+									</button>
 								)}
 							</div>
 						</div>
@@ -141,7 +151,15 @@ export default function Manage(props) {
 				</Row>
 				<Row>
 					<Col>
-						<ActionSwitcher actions={actions} device={device} tasks={tasks} />
+						<Card className="border border-warning p-3">
+							<Card.Body>
+								<ActionSwitcher
+									actions={actions}
+									device={device}
+									tasks={tasks}
+								/>
+							</Card.Body>
+						</Card>
 					</Col>
 				</Row>
 			</Container>

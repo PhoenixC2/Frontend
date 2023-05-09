@@ -57,7 +57,7 @@ export default function SideBar() {
       data-image="/icon.png"
     >
       <div className="logo">
-        <a href="/" className="simple-text logo-normal text-primary">
+        <a href="/" className="simple-text logo-normal text-warning">
           PhoenixC2
         </a>
       </div>

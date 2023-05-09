@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import request, { uploadFile, getData } from "../../logic/api";
 import showNotification from "../../logic/notify";
@@ -20,30 +20,24 @@ export function ExecuteCommand(props) {
 	}
 	return (
 		<>
-			<div className="container">
-				<div className="row">
-					<div className="col">
-						<h3 className="text-primary">Execute Command</h3>
-						<form onSubmit={executeCommand}>
-							<div className="form-group">
-								<label htmlFor="command">Command</label>
-								<input
-									type="text"
-									className="form-control"
-									id="command"
-									placeholder="Command"
-								/>
-								<span className="form-text text-muted">
-									The command to execute on the device.
-								</span>
-							</div>
-							<button type="submit" className="btn btn-primary">
-								Execute
-							</button>
-						</form>
-					</div>
+			<h3 className="text-primary">Execute Command</h3>
+			<form onSubmit={executeCommand}>
+				<div className="form-group">
+					<label htmlFor="command">Command</label>
+					<input
+						type="text"
+						className="form-control"
+						id="command"
+						placeholder="Command"
+					/>
+					<span className="form-text text-muted">
+						The command to execute on the device.
+					</span>
 				</div>
-			</div>
+				<button type="submit" className="btn btn-primary">
+					Execute
+				</button>
+			</form>
 		</>
 	);
 }
@@ -247,7 +241,7 @@ export function ModuleBrowser(props) {
 					{modules &&
 						filteredModules.map((module) => (
 							<div
-								className="card dark-background"
+								className="card"
 								key={module.id}
 							>
 								<div className="card-body" key={module.id}>
@@ -287,7 +281,7 @@ export function ModuleBrowser(props) {
 						))}
 					{!modules && <p>No modules found</p>}
 					{!filteredModules.length && (
-						<div className="card dark-background">
+						<div className="card">
 							<p className="text-danger">No modules found</p>
 						</div>
 					)}

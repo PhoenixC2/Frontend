@@ -6,7 +6,7 @@ This is the offical frontend for the PhoenixC2 project. It is written in React a
 The frontend is automatically included in the docker version of PhoenixC2. If you are running the standalone version of PhoenixC2, you can install the frontend by running the following commands (PhoenixC2 must be installed first):
 
 ```bash
-poetry run phserver --exit --add-plugin-url https://github/screamz2k/PheonixC2-Frontend/releases/latest/download/phoenixc2-dist.zip
+poetry run phserver --exit --add-plugin-url https://github/PhoenixC2/PheonixC2-Frontend/releases/latest/download/phoenixc2-dist.zip
 ```
 This command will download the latest release of the already built frontend and install it into the PhoenixC2 plugins directory. You can then start PhoenixC2 normally and the frontend will be available at the root of the API.
 

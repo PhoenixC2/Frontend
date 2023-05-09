@@ -51,21 +51,21 @@ export default function Bypasses(props) {
 								<Chain key={operation.id} chain={operation} />
 							))}
 						{isLoading && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-warning" colSpan="9">
 									Loading...
 								</td>
 							</tr>
 						)}
 						{isError && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-danger" colSpan="9">
 									Error fetching chains
 								</td>
 							</tr>
 						)}
 						{chains && chains.length === 0 && (
-							<tr className="dark-background">
+							<tr>
 								<td className="text-warning" colSpan="9">
 									No bypasses found
 								</td>

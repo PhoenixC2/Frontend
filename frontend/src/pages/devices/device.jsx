@@ -14,7 +14,7 @@ export default function Device(props) {
 	}
 
 	return (
-		<tr className="dark-background" key={device.id}>
+		<tr key={device.id}>
 			<td className="text-center">{device.id}</td>
 			<td>
 				<Active

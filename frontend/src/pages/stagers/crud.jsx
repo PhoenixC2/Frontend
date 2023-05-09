@@ -5,12 +5,32 @@ import Options from "../../components/options";
 import Info from "../../components/info";
 import Modal from "../../components/modal";
 
+function AdditionalPayloadInfo(props) {
+	const [payload, setPayload] = useState(props.payload);
+
+	useEffect(() => {
+		setPayload(props.payload);
+	}, [props]);
+
+	return (
+		<>
+			<p className="card-text">
+				Language: {payload.language}
+				<br />
+				Compiled: {payload.compiled ? "✅" : "❌"}
+			</p>
+		</>
+	);
+}
+
 function Form(props) {
 	const [stager, setStager] = useState(props.stager);
 	const [type, setType] = useState(props.type);
 	const [listener, setListener] = useState(props.listener);
 	const isEdit = stager !== undefined;
-	const [payload, setPayload] = useState(isEdit ? stager.payload : Object.keys(type.payloads)[0]);
+	const [payload, setPayload] = useState(
+		isEdit ? stager.payload : Object.keys(type.payloads)[0]
+	);
 
 	useEffect(() => {
 		setStager(props.stager);
@@ -18,12 +38,9 @@ function Form(props) {
 		setListener(props.listener);
 	}, [props]);
 
-
-
 	return (
 		<>
 			<form onSubmit={props.handleSubmit}>
-				<Info type={type} />
 				{stager === undefined && (
 					<input type="hidden" name="listener" value={listener.id} />
 				)}
@@ -47,13 +64,22 @@ function Form(props) {
 						The payload the stager will use.
 					</small>
 				</div>
-				{payload && type.payloads[payload].options.length > 0 && (
+				{payload && (
 					<>
-						<h4 className="text-primary">Payload Options: {payload}</h4>
-						<Options
-							options={type.payloads[payload].options}
-							element={stager ? stager.options : undefined}
+						<Info
+							type={type.payloads[payload]}
+							additionalInfo={
+								<AdditionalPayloadInfo
+									payload={type.payloads[payload]}
+								/>
+							}
 						/>
+						{type.payloads[payload].options.length > 0 && (
+							<Options
+								options={type.payloads[payload].options}
+								element={stager ? stager.options : undefined}
+							/>
+						)}
 					</>
 				)}
 				<button type="submit" className="btn btn-primary">
@@ -100,28 +126,18 @@ function CreateBody(props) {
 	return (
 		<>
 			{listeners.length > 0 && (
-				<div className="container">
-					<form>
-						<div className="form-group">
-							<label>Listener</label>
-							<select
-								className="form-control"
-								onChange={handleChange}
-							>
-								{listeners.map((listener) => (
-									<option
-										key={listener.id}
-										value={listener.id}
-									>
-										{listener.name} : {listener.type}
-									</option>
-								))}
-							</select>
-							<small className="form-text text-muted">
-								The listener the stager will use.
-							</small>
-						</div>
-					</form>
+				<div className="form-group">
+					<label className="text-primary">Listener</label>
+					<select className="form-control" onChange={handleChange}>
+						{listeners.map((listener) => (
+							<option key={listener.id} value={listener.id}>
+								{listener.name} : {listener.type}
+							</option>
+						))}
+					</select>
+					<small className="form-text text-muted">
+						The listener the stager will use.
+					</small>
 				</div>
 			)}
 			{type && (
