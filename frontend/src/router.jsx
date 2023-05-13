@@ -1,5 +1,10 @@
-import { createBrowserRouter, redirect } from "react-router-dom";
-import MainFrame from "./components/mainframe";
+import {
+	createBrowserRouter,
+	redirect,
+	createRoutesFromElements,
+	Route,
+} from "react-router-dom";
+import Layout from "./components/layout";
 import LoginForm from "./pages/login";
 import DashBoard from "./pages/dashboard";
 import Operations from "./pages/operations";
@@ -12,59 +17,28 @@ import Users from "./pages/users";
 import Credentials from "./pages/credentials";
 import Logs from "./pages/logs";
 import Bypasses from "./pages/bypasses";
+import Settings from "./pages/settings";
 
-const router = createBrowserRouter([
-  {
-    path: "/login",
-    element: <LoginForm />,
-  },
-  {
-    path: "/dashboard",
-    element: <MainFrame body={<DashBoard />} />,
-  },
-  {
-    path: "/",
-    loader : () => redirect("/dashboard"),
-  },
-  {
-    path: "/operations",
-    element: <MainFrame body={<Operations />} />,
-  },
-  {
-    path: "/devices",
-    element: <MainFrame body={<Devices />} />,
-  },
-  {
-    path: "/listeners",
-    element: <MainFrame body={<Listeners />} />,
-  },
-  {
-    path: "/stagers",
-    element: <MainFrame body={<Stagers />} />,
-  },
-  {
-    path: "/loaders",
-    element: <MainFrame body={<Loaders />} />,
-  },
-  {
-    path: "/modules",
-    element: <MainFrame body={<Modules />} />,
-  },
-  {
-    path: "/users",
-    element: <MainFrame body={<Users />} />,
-  },
-  {
-    path: "/credentials",
-    element: <MainFrame body={<Credentials />} />,
-  },
-  {
-    path: "/logs",
-    element: <MainFrame body={<Logs />} />,
-  },
-  {
-    path: "/bypasses",
-    element: <MainFrame body={<Bypasses />} />,
-  },
-]);
+// create routes with layout and redirect index to dashboard
+const router = createBrowserRouter(
+	createRoutesFromElements([
+		<Route path="/login" element={<LoginForm />} />,
+		<Route element={<Layout />}>
+			<Route path="/" loader={() => redirect("/dashboard")} />
+			<Route path="/dashboard" element={<DashBoard />} />,
+			<Route path="/operations" element={<Operations />} />,
+			<Route path="/devices" element={<Devices />} />,
+			<Route path="/listeners" element={<Listeners />} />,
+			<Route path="/stagers" element={<Stagers />} />,
+			<Route path="/loaders" element={<Loaders />} />,
+			<Route path="/modules" element={<Modules />} />,
+			<Route path="/users" element={<Users />} />,
+			<Route path="/credentials" element={<Credentials />} />,
+			<Route path="/logs" element={<Logs />} />,
+			<Route path="/bypasses" element={<Bypasses />} />,
+			<Route path="/settings" element={<Settings />} />,
+		</Route>,
+	])
+);
+
 export default router;

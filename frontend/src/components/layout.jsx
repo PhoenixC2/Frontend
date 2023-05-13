@@ -1,8 +1,8 @@
-import SideBar from "./frame/sidebar";
-import NavBar from "./frame/navbar";
+import SideBar from "./layout/sidebar";
+import NavBar from "./layout/navbar";
+import { Outlet } from "react-router-dom";
 
-export default function MainFrame(props) {
-	const body = props.body ? props.body : <div>Empty</div>;
+export default function Layout(props) {
 
 	return (
 		<div class="wrapper ">
@@ -10,9 +10,9 @@ export default function MainFrame(props) {
 			<div className="main-panel">
 				<NavBar />
 				<div className="content">
-					<div className="container-fluid">{body}</div>
+					<div className="container-fluid"><Outlet /></div>
 				</div>
-				<footer class="footer">
+				{/* <footer class="footer">
 					<div class="container-fluid">
 						<nav class="float-right">
 							<ul>
@@ -44,7 +44,7 @@ export default function MainFrame(props) {
 							</ul>
 						</nav>
 					</div>
-				</footer>{" "}
+				</footer> */}
 			</div>
 		</div>
 	);

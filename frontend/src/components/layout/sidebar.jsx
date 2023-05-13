@@ -14,6 +14,7 @@ export const icons = {
   logs: "event_note",
   auth: "lock",
   bypasses: "lock_open",
+  settings: "settings",
 };
 
 
@@ -48,6 +49,7 @@ export default function SideBar() {
     Credentials: "credentials",
     Logs: "logs",
     Bypasses: "bypasses",
+    Settings: "settings",
   };
   return (
     <div

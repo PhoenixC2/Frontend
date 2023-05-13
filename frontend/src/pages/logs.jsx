@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { icons } from "../components/frame/sidebar";
+import { icons } from "../components/layout/sidebar";
 import showNotification from "../logic/notify";
 import request, { getData } from "../logic/api";
 import UserRender from "../components/user";
