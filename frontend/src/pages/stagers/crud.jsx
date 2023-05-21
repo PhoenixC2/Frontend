@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import request from "../../logic/api";
 import showNotification from "../../logic/notify";
-import Options from "../../components/options";
+import OptionCollection from "../../components/options/options";
 import Info from "../../components/info";
 import Modal from "../../components/modal";
 
@@ -44,7 +44,7 @@ function Form(props) {
 				{stager === undefined && (
 					<input type="hidden" name="listener" value={listener.id} />
 				)}
-				<Options options={type.options} element={stager} />
+				<OptionCollection options={type.options} element={stager} />
 				<div className="form-group">
 					<label className="text-primary">Payload</label>
 					<select
@@ -75,7 +75,7 @@ function Form(props) {
 							}
 						/>
 						{type.payloads[payload].options.length > 0 && (
-							<Options
+							<OptionCollection
 								options={type.payloads[payload].options}
 								element={stager ? stager.options : undefined}
 							/>

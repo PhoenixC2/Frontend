@@ -89,6 +89,7 @@ export default function Bypasses(props) {
 					body={<RunSingleBypass bypasses={bypasses} />}
 				/>
 			)}
+			<button className="btn btn-primary">Create new bypass chain</button>
 		</>
 	);
 }

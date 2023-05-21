@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import request from "../../logic/api";
 import showNotification from "../../logic/notify";
 import Modal from "../../components/modal";
-import Options from "../../components/options";
+import OptionCollection from "../../components/options/options";
 import Info from "../../components/info";
 
 function Form(props) {
@@ -23,7 +23,7 @@ function Form(props) {
 				{listener === undefined && (
 					<input type="hidden" name="type" value={type.name} />
 				)}
-				<Options options={type.options} element={listener} />
+				<OptionCollection options={type.options} element={listener} />
 				<button type="submit" className="btn btn-primary">
 					{isEdit ? "Edit" : "Create"}
 				</button>

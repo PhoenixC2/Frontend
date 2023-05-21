@@ -13,7 +13,7 @@ export default function Devices(props) {
 	const [searchParams] = useSearchParams();
 
 	async function clearDevice(id) {
-		const response = await request(`devices/${id}/clear`, "POST");
+		const response = await request(`devices/${id}/clear`, "DELETE");
 		const data = await response.json();
 		showNotification(data.message, data.status);
 	}

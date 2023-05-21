@@ -20,7 +20,7 @@ export default function LoginForm() {
   }, []);
 
   async function loginWithApiKey() {
-    Cookies.set("api_key", apiKey, { sameSite: "none", secure: true });
+    Cookies.set("api_key", apiKey, { sameSite: "none"});
     try {
       await getUser();
     } catch {
@@ -40,7 +40,6 @@ export default function LoginForm() {
     showNotification(data.message, data.status);
     Cookies.set("api_key", data.user.api_key, {
       sameSite: "none",
-      secure: true,
     });
     navigate("/dashboard");
   }
