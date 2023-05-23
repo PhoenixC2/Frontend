@@ -5,7 +5,7 @@ import RunSingleBypass from "./single";
 import Modal from "../../components/modal";
 import { useState } from "react";
 
-export default function Bypasses(props) {
+export default function Chains(props) {
 	const [showSingleRun, setShowSingleRun] = useState(false);
 
 	const {
@@ -67,7 +67,7 @@ export default function Bypasses(props) {
 						{chains && chains.length === 0 && (
 							<tr>
 								<td className="text-warning" colSpan="9">
-									No bypasses found
+									No chains found
 								</td>
 							</tr>
 						)}

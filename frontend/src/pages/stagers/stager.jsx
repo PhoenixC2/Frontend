@@ -3,7 +3,10 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import request from "../../logic/api";
 import showNotification from "../../logic/notify";
-
+import CustomButton from "../../components/buttons/custom";
+import DeleteButton from "../../components/buttons/delete";
+import EditButton from "../../components/buttons/edit";
+import { faDownload, faWrench } from "@fortawesome/free-solid-svg-icons";
 export default function Stager(props) {
 	const [stager, setStager] = useState(props.stager);
 
@@ -52,29 +55,25 @@ export default function Stager(props) {
 			<td>{stager.listener.type}</td>
 			<td>{stager.payload}</td>
 			<td>
-				<Link
-					to={getDownloadUrl()}
-					className="btn btn-success"
-					target="_blank"
+				<CustomButton
+					color="success"
 					title="Download"
-				>
-					<i className="material-icons">get_app</i>
-				</Link>
+					onClick={() => {
+						window.location.href = getDownloadUrl();
+					}}
+					icon={faDownload}
+				/>
 				{payload && payload.compiled && (
-					<Button
-						variant="info"
-						title="Compile"
+					<CustomButton
+						color="info"
+						title="Recompile"
 						onClick={recompileStager}
-					>
-						<i className="material-icons">build</i>
-					</Button>
+						icon={faWrench}
+					/>
+
 				)}
-				<Button variant="warning" onClick={showEditModal} title="Edit">
-					<i className="material-icons">edit</i>
-				</Button>
-				<Button variant="danger" onClick={deleteStager} title="Delete">
-					<i className="material-icons">delete</i>
-				</Button>
+				<EditButton onClick={showEditModal} />
+				<DeleteButton onClick={deleteStager} />
 			</td>
 		</tr>
 	);

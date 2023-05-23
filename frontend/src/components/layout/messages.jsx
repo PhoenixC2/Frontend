@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import request from "../../logic/api";
 import showNotification from "../../logic/notify";
 import { NavItem, Dropdown } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell} from "@fortawesome/free-solid-svg-icons";
 function Message(props) {
 	const log = props.log;
 	return (
@@ -50,7 +52,7 @@ export default function MessageDropdown(props) {
 					aria-haspopup="true"
 					aria-expanded="false"
 				>
-					<i className="material-icons">notifications</i>
+					<FontAwesomeIcon icon={faBell} size="lg" />
 					<span className="notification">
 						{messages ? messages.length : 0}
 					</span>

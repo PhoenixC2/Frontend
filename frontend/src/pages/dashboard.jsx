@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getData } from "../logic/api";
 import Active from "../components/active";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faServer, faWifi, faUsers, faSignal} from "@fortawesome/free-solid-svg-icons";
 export default function DashBoard() {
 	const { data: dashboard } = useQuery(
 		["dashboard"],
@@ -50,7 +51,8 @@ export default function DashBoard() {
 						<div className="card card-stats">
 							<div className="card-header card-header-warning card-header-icon">
 								<div className="card-icon">
-									<i className="material-icons">dns</i>
+									{/* make way bigger */}
+									<FontAwesomeIcon icon={faServer} size="3x" />
 								</div>
 								<p className="card-category">
 									Connected devices
@@ -61,9 +63,6 @@ export default function DashBoard() {
 							</div>
 							<div className="card-footer">
 								<div className="stats">
-									<i className="material-icons">
-										open_in_new
-									</i>
 									<Link
 										className="text-warning"
 										to="/devices"
@@ -78,7 +77,7 @@ export default function DashBoard() {
 						<div className="card card-stats">
 							<div className="card-header card-header-danger card-header-icon">
 								<div className="card-icon">
-									<i className="material-icons">earbuds</i>
+									<FontAwesomeIcon icon={faWifi} size="3x" />
 								</div>
 								<p className="card-category">
 									Active listeners
@@ -89,9 +88,6 @@ export default function DashBoard() {
 							</div>
 							<div className="card-footer">
 								<div className="stats">
-									<i className="material-icons">
-										open_in_new
-									</i>
 									<Link
 										className="text-warning"
 										to="/listeners"
@@ -106,7 +102,7 @@ export default function DashBoard() {
 						<div className="card card-stats">
 							<div className="card-header card-header-success card-header-icon">
 								<div className="card-icon">
-									<i className="material-icons">group</i>
+									<FontAwesomeIcon icon={faUsers} size="3x" />
 								</div>
 								<p className="card-category">Users active</p>
 								<h3 className="card-title text-primary">
@@ -115,9 +111,6 @@ export default function DashBoard() {
 							</div>
 							<div className="card-footer">
 								<div className="stats">
-									<i className="material-icons">
-										open_in_new
-									</i>
 									<Link className="text-warning" to="/users">
 										Manage users
 									</Link>
@@ -129,7 +122,7 @@ export default function DashBoard() {
 						<div className="card card-stats">
 							<div className="card-header card-header-info card-header-icon">
 								<div className="card-icon">
-									<i className="material-icons">route</i>
+									<FontAwesomeIcon icon={faSignal} size="3x" />
 								</div>
 								<p className="card-category">
 									Connections last hour

@@ -5,16 +5,16 @@ import { Outlet } from "react-router-dom";
 export default function Layout(props) {
 
 	return (
-		<div class="wrapper ">
+		<div className="wrapper ">
 			<SideBar />
 			<div className="main-panel">
 				<NavBar />
 				<div className="content">
 					<div className="container-fluid"><Outlet /></div>
 				</div>
-				{/* <footer class="footer">
-					<div class="container-fluid">
-						<nav class="float-right">
+				{/* <footer className="footer">
+					<div className="container-fluid">
+						<nav className="float-right">
 							<ul>
 								<li>
 									<a

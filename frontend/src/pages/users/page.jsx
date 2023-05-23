@@ -1,10 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import Modal from "../../components/modal";
 import { getData } from "../../logic/api";
 import showNotification from "../../logic/notify";
-import Form from "./form";
-import Modal from "../../components/modal";
+import Form from "./crud";
 import User from "./user";
 
 export default function Users(props) {

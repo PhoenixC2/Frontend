@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Active from "../../components/active";
-
+import CustomButton from "../../components/buttons/custom";
+import { faGear } from "@fortawesome/free-solid-svg-icons";
+import DeleteButton from "../../components/buttons/delete";
 export default function Device(props) {
 	const [device, setDevice] = useState(props.device);
 
@@ -32,22 +34,16 @@ export default function Device(props) {
 			<td>{device.last_online}</td>
 			<td>{device.connection_time}</td>
 			<td>
-				<button
-					type="button"
-					className="btn btn-warning"
-					onClick={showManageModal}
+				<CustomButton
+					color="primary"
+					icon={faGear}
 					title="Manage"
-				>
-					<i className="material-icons">settings</i>
-				</button>
-				<button
-					type="button"
-					className="btn btn-danger"
-					onClick={() => props.clearDevice(device.id)}
+					onClick={showManageModal}
+				/>
+				<DeleteButton
 					title="Clear"
-				>
-					<i className="material-icons">delete</i>
-				</button>
+					onClick={() => props.clearDevice(device.id)}
+				/>
 			</td>
 		</tr>
 	);

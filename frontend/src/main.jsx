@@ -7,7 +7,7 @@ import queryClient from "./query";
 import router from "./router";
 import "./css/styles.css";
 import "./scss/material-dashboard.scss";
-
+import "@fontsource/roboto"; 
 // allow toggling devtools in production builds
 
 const ReactQueryDevtoolsProduction = React.lazy(() =>

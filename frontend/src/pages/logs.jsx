@@ -3,7 +3,8 @@ import { icons } from "../components/layout/sidebar";
 import showNotification from "../logic/notify";
 import request, { getData } from "../logic/api";
 import UserRender from "../components/user";
-
+import DeleteButton from "../components/buttons/delete";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Logs(props) {
   async function clearLog(id) {
     const response = await request(`logs/${id}/clear`, "DELETE");
@@ -52,20 +53,17 @@ export default function Logs(props) {
                     title={log.endpoint}
                   >
                     <i className="material-icons" aria-label="Endpoint">
-                      {icons[log.endpoint]}
+                      <FontAwesomeIcon icon={icons[log.endpoint]} />
                     </i>
                   </td>
                   <td className={`text-${log.status}`}>{log.description}</td>
                   <td>{log.time}</td>
                   <td>{log.user.username ? <UserRender user={log.user} /> : log.user}</td>
                   <td>
-                    <button
-                      type="button"
-                      className="btn btn-danger"
+                    <DeleteButton
+                      title="Clear"
                       onClick={() => clearLog(log.id)}
-                    >
-                      Clear
-                    </button>
+                    />
                   </td>
                 </tr>
               ))}

@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import showNotification from "../../logic/notify";
 import request from "../../logic/api";
 import Active from "../../components/active";
-
+import { faArrowRotateRight, faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
+import CustomButton from "../../components/buttons/custom";
+import EditButton from "../../components/buttons/edit";
+import DeleteButton from "../../components/buttons/delete";
 export default function Listener(props) {
 	const [listener, setListener] = useState(props.listener);
 	const [listeners, setListeners] = useState(props.listeners);
@@ -80,61 +83,35 @@ export default function Listener(props) {
 					<td>{listener.enabled ? "✅" : "❌"}</td>
 					<td>
 						{!listener.active && (
-							<button
-								type="button"
-								className="btn btn-success"
-								data-toggle="tooltip"
-								data-placement="top"
+							<CustomButton
+								color="success"
+								icon={faPlay}
 								title="Start"
 								onClick={start}
-							>
-								<i className="material-icons">play_arrow</i>
-							</button>
+							/>
 						)}
 						{listener.active && (
-							<button
-								type="button"
-								className="btn btn-info"
-								data-toggle="tooltip"
-								data-placement="top"
+							<CustomButton
+								color="info"
+								icon={faArrowRotateRight}
 								title="Restart"
 								onClick={restart}
-							>
-								<i className="material-icons">restart_alt</i>
-							</button>
+							/>
 						)}
 						{listener.active && (
-							<button
-								type="button"
-								className="btn btn-danger"
-								data-toggle="tooltip"
-								data-placement="top"
+							<CustomButton
+								color="danger"
+								icon={faStop}
 								title="Stop"
 								onClick={stop}
-							>
-								<i className="material-icons">stop</i>
-							</button>
+							/>
 						)}
-						<button
-							type="button"
-							className="btn btn-warning"
-							data-toggle="tooltip"
-							data-placement="top"
+						<EditButton
 							onClick={showEditModal}
-							title="Edit"
-						>
-							<i className="material-icons">edit</i>
-						</button>
-						<button
-							type="button"
-							className="btn btn-danger"
-							data-toggle="tooltip"
-							data-placement="top"
-							title="Delete"
+						/>
+						<DeleteButton
 							onClick={remove}
-						>
-							<i className="material-icons">delete</i>
-						</button>
+						/>
 					</td>
 				</tr>
 			)}

@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 export default function Active(props) {
 	const [active, setActive] = useState(props.active);
 	useEffect(() => {
@@ -6,21 +8,18 @@ export default function Active(props) {
 	}, [props.active]);
 
 	return (
-		<i
+		<FontAwesomeIcon
 			title={
 				active
 					? props.activeTitle ?? "Active"
 					: props.inactiveTitle ?? "Inactive"
 			}
-			className="material-icons"
-			// set color to green if listener is active and red if not
 			style={{
-				color: active ? "green" : "red",
 				marginTop: "4px",
 				marginLeft: "4px",
 			}}
-		>
-			circle
-		</i>
+			color={active ? "green" : "red"}
+			icon={faCircle}
+		/>
 	);
 }

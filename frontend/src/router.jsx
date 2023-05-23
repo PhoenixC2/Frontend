@@ -16,7 +16,7 @@ import Modules from "./pages/modules";
 import Users from "./pages/users";
 import Credentials from "./pages/credentials";
 import Logs from "./pages/logs";
-import Bypasses from "./pages/bypasses";
+import Chains from "./pages/bypasses";
 import Settings from "./pages/settings";
 
 // create routes with layout and redirect index to dashboard
@@ -35,7 +35,7 @@ const router = createBrowserRouter(
 			<Route path="/users" element={<Users />} />,
 			<Route path="/credentials" element={<Credentials />} />,
 			<Route path="/logs" element={<Logs />} />,
-			<Route path="/bypasses" element={<Bypasses />} />,
+			<Route path="/bypasses" element={<Chains />} />,
 			<Route path="/settings" element={<Settings />} />,
 		</Route>,
 	])
