@@ -1,3 +1,3 @@
-import OptionCollection from "./options";
+import OptionCollection from "./collection";
 
 export default OptionCollection;

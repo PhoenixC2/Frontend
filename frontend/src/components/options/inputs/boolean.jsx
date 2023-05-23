@@ -13,7 +13,7 @@ export default function Boolean(props) {
 					name={props.option.real_name}
 					defaultChecked={
 						props.isEdit
-							? props.element.option.real_name
+							? props.element[props.option.real_name]
 							: props.option.default
 					}
 				/>

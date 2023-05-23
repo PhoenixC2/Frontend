@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import {Fragment, useEffect, useState } from "react";
 import Boolean from "./inputs/boolean";
 import Address from "./inputs/address";
 import Port from "./inputs/port";
@@ -23,11 +23,12 @@ export default function OptionCollection(props) {
 	if (isEdit) {
 		modifiedOptions = options.filter((option) => option.editable);
 	}
+	console.log(element);
 	return (
 		<>
 			{modifiedOptions &&
 				modifiedOptions.map((option) => (
-					<React.Fragment key={option.real_name}>
+					<Fragment key={option.real_name}>
 						{option.type === "boolean" && (
 							<Boolean
 								option={option}
@@ -77,7 +78,7 @@ export default function OptionCollection(props) {
 								element={element}
 							/>
 						)}
-					</React.Fragment>
+					</Fragment>
 				))}
 		</>
 	);

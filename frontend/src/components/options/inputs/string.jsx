@@ -10,7 +10,7 @@ export default function String(props) {
 				name={props.option.real_name}
 				defaultValue={
 					props.isEdit
-						? props.element.option.real_name
+						? props.element[props.option.real_name]
 						: props.option.default
 				}
 			/>

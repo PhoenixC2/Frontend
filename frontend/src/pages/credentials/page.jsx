@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { getData } from "../logic/api";
-import { get } from "jquery";
+import { getData } from "../../logic/api";
 
-export default function Credentials(props) {
+export default function Credentials() {
   const {
     data: credentials,
     isLoading,

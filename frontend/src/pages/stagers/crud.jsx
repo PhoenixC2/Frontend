@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import request from "../../logic/api";
 import showNotification from "../../logic/notify";
-import OptionCollection from "../../components/options/options";
+import OptionCollection from "../../components/options";
 import Info from "../../components/info";
 import Modal from "../../components/modal";
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import request from "../../logic/api";
 import showNotification from "../../logic/notify";
 import Modal from "../../components/modal";
-import OptionCollection from "../../components/options/options";
+import OptionCollection from "../../components/options";
 import Info from "../../components/info";
 
 function Form(props) {
