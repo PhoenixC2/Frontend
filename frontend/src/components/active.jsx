@@ -20,6 +20,7 @@ export default function Active(props) {
 			}}
 			color={active ? "green" : "red"}
 			icon={faCircle}
+			size="lg"
 		/>
 	);
 }

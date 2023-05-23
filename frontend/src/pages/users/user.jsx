@@ -4,6 +4,8 @@ import { getPictureUrl } from "../../logic/user";
 import showNotification from "../../logic/notify";
 import EditButton from "../../components/buttons/edit";
 import DeleteButton from "../../components/buttons/delete";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 export default function User(props) {
 	const [user, setUser] = useState(props.user);
 
@@ -20,21 +22,18 @@ export default function User(props) {
 		<tr>
 			<td className="text-center">{user.id}</td>
 			<td>
-				<i
+				<FontAwesomeIcon
 					title={user.status}
-					className="material-icons" // set color to green if user is active, orange if inactive and red if offline
 					style={{
-						color: user.status
-							? "green"
-							: user.status
-							? "orange"
-							: "red",
 						marginTop: "4px",
 						marginLeft: "4px",
 					}}
-				>
-					circle
-				</i>
+					size="lg"
+					color={
+						user.status ? "green" : user.status ? "orange" : "red"
+					}
+					icon={faCircle}
+				/>
 			</td>
 			<td>
 				<img
@@ -51,9 +50,7 @@ export default function User(props) {
 			<td>{user.disabled ? "✅" : "❌"}</td>
 			<td>{user.last_activity ?? "Never"}</td>
 			<td>
-				<EditButton
-					onClick={() => props.toggleShowEditModal(user)}
-				/>
+				<EditButton onClick={() => props.toggleShowEditModal(user)} />
 				<DeleteButton onClick={deleteUser} />
 			</td>
 		</tr>
