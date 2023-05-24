@@ -15,6 +15,7 @@ export default function Port(props) {
 				}
 				min={1}
 				max={65535}
+				required={props.option.required}
 			/>
 			<small className="form-text text-muted">
 				{props.option.description}

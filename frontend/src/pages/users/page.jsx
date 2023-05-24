@@ -8,13 +8,13 @@ import Form from "./crud";
 import User from "./user";
 
 export default function Users(props) {
-	const [currentEditUser, setCurrentEditUSer] = useState(null);
+	const [currentEditUser, setCurrentEditUser] = useState(null);
 	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	function toggleShowEditModal(user) {
-		setCurrentEditUSer(user);
+		setCurrentEditUser(user);
 		setShowEditModal(true);
 	}
 
@@ -110,7 +110,7 @@ export default function Users(props) {
 					title="Edit User"
 					body={
 						<Form
-							setShow={setCurrentEditUSer}
+							setShow={setCurrentEditUser}
 							user={currentEditUser}
 						/>
 					}

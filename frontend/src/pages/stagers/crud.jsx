@@ -53,6 +53,7 @@ function Form(props) {
 						onChange={(e) => setPayload(e.target.value)}
 						disabled={isEdit}
 						defaultValue={payload}
+						required
 					>
 						{Object.keys(type.payloads).map((payload) => (
 							<option key={payload} value={payload}>

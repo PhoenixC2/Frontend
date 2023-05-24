@@ -16,6 +16,7 @@ export default function Boolean(props) {
 							? props.element[props.option.real_name]
 							: props.option.default
 					}
+					
 				/>
 				{props.option.name}
 				<span className="form-check-sign">

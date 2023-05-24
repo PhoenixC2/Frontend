@@ -12,6 +12,7 @@ export default function Choice(props) {
 						? props.element[props.option.real_name]
 						: props.option.default
 				}
+				required={props.option.required}
 			>
 				{props.option.type_data.choices.map((choice) => (
 					<option value={choice} key={choice}>

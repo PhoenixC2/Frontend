@@ -23,12 +23,6 @@ export default function Settings(props) {
 	}
 
 	const { data: user } = useQuery(["user"], fetchData);
-
-	// show settings or error if not admin
-	if (user && !user.id === 1) {
-		showNotification("You are not the super user", "danger");
-		navigate("/dashboard");
-	}
 	return (
 		<div className="container-fluid">
 			<div className="row">
@@ -41,65 +35,141 @@ export default function Settings(props) {
 							</p>
 						</div>
 					</div>
+					{(user && user.id === 1) ? (
+						<>
+							<div className="card">
+								<div className="card-header">
+									<h3 className="card-title text-primary">
+										Clear directories
+									</h3>
+									<p className="card-category">
+										Click on the buttons below to clear the
+										specified directories.
+									</p>
+								</div>
+								<div className="card-body">
+									<div className="row">
+										<button
+											type="button"
+											className="btn btn-danger mr-2"
+											onClick={() =>
+												clear("misc/downloads")
+											}
+										>
+											Downloads
+										</button>
+										<button
+											type="button"
+											className="btn btn-danger mr-2"
+											onClick={() =>
+												clear("misc/uploads")
+											}
+										>
+											Uploads
+										</button>
+										<button
+											type="button"
+											className="btn btn-danger mr-2"
+											onClick={() =>
+												clear("misc/stagers")
+											}
+										>
+											Generated Stagers
+										</button>
+									</div>
+								</div>
+							</div>
+							<div className="card">
+								<div className="card-header">
+									<h3 className="card-title text-primary">
+										Clear finished tasks
+									</h3>
+									<p className="card-category">
+										Useful if the device was deleted but the
+										tasks were not.
+									</p>
+								</div>
+								<div className="card-body">
+									{/* padding between buttons */}
+									<div className="row">
+										<button
+											type="button"
+											className="btn btn-danger mr-2"
+											onClick={() => clear("tasks/all")}
+										>
+											Clear Tasks
+										</button>
+									</div>
+								</div>
+							</div>
+						</>
+					) : (
+						<div className="card">
+							<div className="card-header">
+								<h3 className="card-title text-danger">
+									No Access
+								</h3>
+								<p className="card-category">
+									You are not the <span className="text-primary">super user</span>, so you cannot
+									access these settings.
+								</p>
+							</div>
+						</div>
+					)}
+
 					<div className="card">
 						<div className="card-header">
 							<h3 className="card-title text-primary">
-								Clear directories
+								About PhoenixC2
 							</h3>
 							<p className="card-category">
-								Click on the buttons below to clear the
-								specified directories.
+								Basic information about PhoenixC2.
 							</p>
 						</div>
 						<div className="card-body">
 							<div className="row">
-								<button
-									type="button"
-									className="btn btn-danger mr-2"
-									onClick={() => clear("misc/downloads")}
-								>
-									Downloads
-								</button>
-								<button
-									type="button"
-									className="btn btn-danger mr-2"
-									onClick={() => clear("misc/uploads")}
-								>
-									Uploads
-								</button>
-								<button
-									type="button"
-									className="btn btn-danger mr-2"
-									onClick={() => clear("misc/stagers")}
-								>
-									Generated Stagers
-								</button>
+								<div className="col">
+									<p>
+										<b className="text-primary">Version:</b> 1.0.0
+									</p>
+									<p>
+										<b className="text-primary">Author:</b>{" "}
+										<a
+											href="https://github.com/screamz2k/"
+											target="_blank"
+											rel="noreferrer"
+										>
+											screamz2k
+										</a>
+									</p>
+									<p>
+										<b className="text-primary">License:</b> BSD-3-Clause
+									</p>
+									<p>
+										<b className="text-primary">Frontend Plugin:</b>{" "}
+										<a
+											href="https://github.com/PhoenixC2/Frontend"
+											target="_blank"
+											rel="noreferrer"
+										>
+											GitHub
+										</a>
+									</p>
+									<p>
+										<b className="text-primary">PhoenixC2 Framework:</b>{" "}
+										<a
+											href="https://github.com/PhoenixC2/PhoenixC2"
+											target="_blank"
+											rel="noreferrer"
+										>
+											GitHub
+										</a>
+									</p>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div className="card">
-						<div className="card-header">
-							<h3 className="card-title text-primary">
-								Clear finished tasks
-							</h3>
-							<p className="card-category">
-								Useful if the device was deleted but the tasks
-								were not.
-							</p>
-						</div>
-						<div className="card-body">
-							{/* padding between buttons */}
-							<div className="row">
-								<button
-									type="button"
-									className="btn btn-danger mr-2"
-									onClick={() => clear("tasks/all")}
-								>
-									Clear Tasks
-								</button>
-							</div>
-						</div>
-					</div>
+					{/* end of card */}
 				</div>
 			</div>
 		</div>

@@ -14,6 +14,7 @@ export default function Address(props) {
 						? props.element[props.option.real_name]
 						: props.option.default
 				}
+				required={props.option.required}
 			/>
 			<datalist id="addresses">
 				{Object.keys(props.option.type_data.interfaces).map(

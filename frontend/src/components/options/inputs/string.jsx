@@ -13,6 +13,7 @@ export default function String(props) {
 						? props.element[props.option.real_name]
 						: props.option.default
 				}
+				required={props.option.required}
 			/>
 			<small className="form-text text-muted">
 				{props.option.description}

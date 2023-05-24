@@ -3,8 +3,9 @@ import showNotification from "../../logic/notify";
 import BypassBrowser from "./browser";
 import StagerSelector from "./stagers";
 import { useState } from "react";
+
 export default function RunSingleBypass(props) {
-	const [bypasses, setBypasses] = useState(props.bypasses);
+	const [bypasses] = useState(props.bypasses);
 	const [selectedStager, setSelectedStager] = useState(null);
 	const [selectedCategory, setSelectedCategory] = useState(null);
 	const [selectedBypass, setSelectedBypass] = useState(null);

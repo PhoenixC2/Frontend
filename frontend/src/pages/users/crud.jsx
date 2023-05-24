@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import request, { uploadFile } from "../../logic/api";
 import showNotification from "../../logic/notify";
 import { getPictureUrl } from "../../logic/user";
+import DeleteButton from "../../components/buttons/delete";
 
 export default function Form(props) {
 	const [user, setUser] = useState(props.user ?? {});
@@ -54,8 +55,7 @@ export default function Form(props) {
 			);
 			const dataPicture = await responsePicture.json();
 			showNotification(dataPicture.message, dataPicture.status);
-		}
-		else if (pictureData) {
+		} else if (pictureData) {
 			const responsePicture = await uploadFile(
 				`users/${props.user.id}/picture`,
 				pictureData
@@ -126,6 +126,7 @@ export default function Form(props) {
 					onChange={(event) => {
 						setUser({ ...user, username: event.target.value });
 					}}
+					required
 				/>
 			</div>
 			<div className="form-group">
@@ -137,6 +138,8 @@ export default function Form(props) {
 					onChange={(event) =>
 						setUser({ ...user, password: event.target.value })
 					}
+					required={!isEdit}
+					minLength={isEdit ? 0 : 8}
 				/>
 			</div>
 			<div className="form-check">
@@ -178,17 +181,13 @@ export default function Form(props) {
 				value={isEdit ? "Edit" : "Create"}
 			/>
 			{isEdit && (
-				<button
-					type="button"
-					className="btn btn-danger"
-					value="Delete"
+				<DeleteButton
+					title="Delete profile picture"
 					onClick={() => {
 						setDeletePicture(true);
 						setProfilePicture("/icon.png");
 					}}
-				>
-					Delete Picture
-				</button>
+				/>
 			)}
 		</form>
 	);

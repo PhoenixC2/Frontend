@@ -4,9 +4,18 @@ import Chain from "./chain";
 import RunSingleBypass from "./single";
 import Modal from "../../components/modal";
 import { useState } from "react";
+import Form from "./crud";
 
 export default function Chains(props) {
 	const [showSingleRun, setShowSingleRun] = useState(false);
+	const [currentEditChain, setCurrentEditChain] = useState(null);
+	const [showEditModal, setShowEditModal] = useState(false);
+	const [showCreateModal, setShowCreateModal] = useState(false);
+
+	function toggleShowEditModal(chain) {
+		setCurrentEditChain(chain)
+		setShowEditModal(true);
+	}
 
 	const {
 		data: chains,
@@ -42,13 +51,14 @@ export default function Chains(props) {
 							<th>Name</th>
 							<th>Description</th>
 							<th>Bypasses</th>
+							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 						{chains &&
 							chains.length > 0 &&
 							chains.map((operation) => (
-								<Chain key={operation.id} chain={operation} />
+								<Chain key={operation.id} chain={operation} toggleShowEditModal={toggleShowEditModal} />
 							))}
 						{isLoading && (
 							<tr>
@@ -83,13 +93,40 @@ export default function Chains(props) {
 			{showSingleRun && (
 				<Modal
 					title="Run single bypass"
-          show={showSingleRun}
-          setShow={setShowSingleRun}
+					show={showSingleRun}
+					setShow={setShowSingleRun}
 					onClose={() => setShowSingleRun(false)}
 					body={<RunSingleBypass bypasses={bypasses} />}
 				/>
 			)}
-			<button className="btn btn-primary">Create new bypass chain</button>
+			<button 
+				className="btn btn-primary" 
+				onClick={() => {
+					setShowCreateModal(true);
+				}}>
+					Add Bypass Chain
+				</button>
+
+			<Modal
+				show={showCreateModal}
+				setShow={setShowCreateModal}
+				title="Add Bypass Chain"
+				body={<Form setShow={setShowCreateModal} />}
+			/>
+			{currentEditChain && (
+				<Modal
+					show={showEditModal}
+					setShow={setShowEditModal}
+					title="Edit Bypass Chain"
+					body={
+						<Form
+							setShow={setCurrentEditChain}
+							chain={currentEditChain}
+
+						/>
+					}
+				/>
+			)}
 		</>
 	);
 }

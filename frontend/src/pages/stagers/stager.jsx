@@ -23,7 +23,7 @@ export default function Stager(props) {
 	async function recompileStager() {
 		// downloads the payload with recompile argument set to true
 		const response = await request(
-			`stagers/${stager.id}/download?recompile?=true`,
+			`stagers/${stager.id}/download?recompile=true`,
 			"GET"
 		);
 		if (response.status === 200) {

@@ -69,6 +69,7 @@ function CreateBody(props) {
 							<select
 								className="form-control"
 								onChange={handleChange}
+								required
 							>
 								{Object.keys(types).map((type) => (
 									<option key={type} value={type}>
